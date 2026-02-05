@@ -34,13 +34,24 @@ function ZodiacCard({
 }) {
   return (
     <button 
-      className={`zodiac-card text-center p-4 ${isSelected ? 'selected' : ''}`}
+      className={`relative group p-4 rounded-2xl transition-all duration-500 overflow-hidden ${
+        isSelected 
+        ? 'bg-gradient-to-br from-amber-500/20 to-orange-600/20 border-amber-500/50 shadow-[0_0_20px_rgba(245,158,11,0.2)]' 
+        : 'bg-white/5 border-white/10 hover:bg-white/10 hover:border-white/20'
+      } border backdrop-blur-sm flex flex-col items-center justify-center gap-2 aspect-square active:scale-95`}
       onClick={onClick}
     >
-      <div className="zodiac-icon">{animal.emoji}</div>
-      <div className="font-semibold text-gray-900 text-sm">{animal.name}</div>
-      <div className="text-xs text-gray-500 mt-1">
-        {animal.years.slice(-3).join(", ")}...
+      {isSelected && (
+        <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 via-transparent to-transparent opacity-50" />
+      )}
+      <div className={`text-4xl transition-transform duration-500 group-hover:scale-110 ${isSelected ? 'animate-bounce-subtle' : ''}`}>
+        {animal.emoji}
+      </div>
+      <div className={`font-bold text-sm transition-colors duration-300 ${isSelected ? 'text-amber-400' : 'text-gray-400 group-hover:text-white'}`}>
+        {animal.name}
+      </div>
+      <div className={`text-[10px] transition-colors duration-300 ${isSelected ? 'text-amber-500/70' : 'text-gray-500'}`}>
+        {animal.years.slice(-1)}
       </div>
     </button>
   );
@@ -83,53 +94,56 @@ export default function Zodiac() {
 
   return (
     <Layout>
-      {/* Hero Section */}
-      <section className="bg-gradient-to-b from-amber-50 to-white py-12">
-        <div className="container">
+      <section className="bg-gradient-to-b from-[#1e1b4b] to-background py-20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(245,158,11,0.15),transparent_70%)]" />
+        <div className="absolute top-0 left-0 w-full h-full opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/dark-matter.png')]" />
+        <div className="container relative z-10">
           <div className="max-w-2xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-amber-100 text-amber-700 text-sm font-medium mb-6">
+            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-amber-500/10 text-amber-400 text-xs font-bold mb-8 border border-amber-500/20 backdrop-blur-md animate-twinkle">
               <Sparkles className="w-4 h-4" />
-              Dự báo năm Bính Ngọ 2026
+              TỬ VI CHI TIẾT NĂM BÍNH NGỌ 2026
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Tử Vi 12 Con Giáp 2026
+            <h1 className="text-5xl md:text-6xl font-extrabold text-white mb-8 tracking-tighter text-glow font-serif">
+              Tử Vi <span className="bg-gradient-to-r from-amber-400 to-orange-500 bg-clip-text text-transparent">12 Con Giáp</span>
             </h1>
-            <p className="text-gray-600">
-              Dự báo chi tiết vận mệnh năm 2026 cho 12 con giáp về sự nghiệp, 
-              tài chính, tình duyên và sức khỏe.
+            <p className="text-gray-400 text-lg md:text-xl leading-relaxed max-w-xl mx-auto">
+              Dự báo vận mệnh, sự nghiệp, tài lộc và tình duyên cho từng con giáp dưới góc nhìn của chuyên gia Phong Thủy AI.
             </p>
           </div>
         </div>
       </section>
 
       {/* Main Content */}
-      <section className="py-12">
+      <section className="py-12 min-h-screen relative">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-full bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.03),transparent)] pointer-events-none" />
         <div className="container">
           {!result ? (
-            <div className="space-y-8">
+            <div className="space-y-12 animate-fade-in-up">
               {/* Year Input */}
               <div className="max-w-md mx-auto">
-                <div className="result-card">
-                  <h3 className="font-bold text-gray-900 mb-2 text-center">Nhập năm sinh để tìm con giáp</h3>
-                  <p className="text-sm text-gray-500 mb-4 text-center">
-                    Hoặc chọn trực tiếp con giáp bên dưới
-                  </p>
-                  <div className="flex gap-4">
-                    <Input
-                      type="number"
-                      placeholder="VD: 1990"
-                      value={birthYear}
-                      onChange={(e) => handleYearChange(e.target.value)}
-                      min="1900"
-                      max="2100"
-                      className="form-input"
-                    />
+                <div className="glass-card bg-[#0f172a]/80 border-white/10">
+                  <h3 className="font-bold text-white mb-4 text-center">Tìm con giáp qua năm sinh</h3>
+                  <div className="flex flex-col gap-4">
+                    <div className="relative">
+                      <Input
+                        type="number"
+                        placeholder="Nhập năm sinh (VD: 1990)"
+                        value={birthYear}
+                        onChange={(e) => handleYearChange(e.target.value)}
+                        min="1900"
+                        max="2100"
+                        className="h-12 bg-white/5 border-white/10 text-white focus:border-amber-500/50 rounded-xl pl-4"
+                      />
+                    </div>
                     {zodiacFromYear.data && (
-                      <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-purple-50 border border-purple-100">
-                        <span className="text-2xl">
+                      <div className="flex items-center justify-center gap-3 p-4 rounded-xl bg-amber-500/10 border border-amber-500/20 animate-fade-in">
+                        <span className="text-4xl">
                           {ZODIAC_ANIMALS.find(z => z.id === zodiacFromYear.data.animal)?.emoji}
                         </span>
-                        <span className="font-medium text-purple-700">{zodiacFromYear.data.vietnameseName}</span>
+                        <div>
+                          <div className="text-xs text-amber-500/70 font-bold uppercase tracking-wider">Tuổi của bạn là</div>
+                          <div className="text-xl font-bold text-white">{zodiacFromYear.data.vietnameseName}</div>
+                        </div>
                       </div>
                     )}
                   </div>
@@ -137,11 +151,15 @@ export default function Zodiac() {
               </div>
 
               {/* Zodiac Grid */}
-              <div>
-                <h2 className="text-xl font-bold text-gray-900 text-center mb-6">
-                  Chọn Con Giáp Của Bạn
-                </h2>
-                <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 max-w-4xl mx-auto">
+              <div className="relative z-10">
+                <div className="flex items-center justify-center gap-4 mb-10">
+                  <div className="h-px w-12 bg-gradient-to-r from-transparent to-amber-500/50" />
+                  <h2 className="text-2xl font-bold text-white text-center">
+                    Chọn Con Giáp Của Bạn
+                  </h2>
+                  <div className="h-px w-12 bg-gradient-to-l from-transparent to-amber-500/50" />
+                </div>
+                <div className="grid grid-cols-2 xs:grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-4 max-w-5xl mx-auto">
                   {ZODIAC_ANIMALS.map((animal) => (
                     <ZodiacCard
                       key={animal.id}
@@ -155,35 +173,35 @@ export default function Zodiac() {
 
               {/* Get Forecast Button */}
               {selectedAnimal && (
-                <div className="text-center">
-                  <div className="result-card inline-block">
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="text-5xl">
+                <div className="text-center animate-fade-in-up pb-20">
+                  <div className="glass-card bg-[#0f172a]/90 border-amber-500/30 inline-block p-8 min-w-[320px] shadow-[0_0_30px_rgba(245,158,11,0.1)]">
+                    <div className="flex flex-col items-center gap-4 mb-8">
+                      <div className="w-24 h-24 rounded-full bg-gradient-to-br from-amber-500/20 to-orange-600/20 border border-amber-500/30 flex items-center justify-center text-6xl shadow-inner">
                         {selectedZodiac?.emoji}
                       </div>
-                      <div className="text-left">
-                        <div className="text-xl font-bold text-gray-900">
+                      <div className="text-center">
+                        <div className="text-2xl font-bold text-white mb-1">
                           {selectedZodiac?.name}
                         </div>
-                        <div className="text-gray-500">
-                          Dự báo vận mệnh năm 2026
+                        <div className="text-amber-500/70 text-sm font-medium">
+                          Vận trình năm Bính Ngọ 2026
                         </div>
                       </div>
                     </div>
                     <Button
                       onClick={handleGetForecast}
-                      className="btn-primary w-full"
+                      className="h-14 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-slate-900 border-0 shadow-lg shadow-amber-900/20 w-full rounded-xl transition-all duration-300 font-bold tracking-wide"
                       disabled={forecastMutation.isPending}
                     >
                       {forecastMutation.isPending ? (
                         <>
-                          <Loader2 className="w-5 h-5 animate-spin" />
-                          Đang tạo dự báo...
+                          <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                          Đang Gieo Quẻ...
                         </>
                       ) : (
                         <>
-                          <Sparkles className="w-5 h-5" />
-                          Xem Dự Báo Năm 2026
+                          <Sparkles className="w-5 h-5 mr-2" />
+                          Xem Dự Báo Chi Tiết
                         </>
                       )}
                     </Button>
@@ -192,42 +210,50 @@ export default function Zodiac() {
               )}
             </div>
           ) : (
-            <div className="space-y-8 max-w-4xl mx-auto">
-              <div className="flex items-center justify-between">
+            <div className="space-y-8 max-w-4xl mx-auto animate-fade-in">
+              <div className="flex items-center justify-start pb-4">
                 <Button
                   variant="outline"
                   onClick={() => setResult(null)}
-                  className="btn-secondary"
+                  className="h-10 bg-white/5 border-white/10 text-gray-300 hover:bg-white/10 rounded-xl transition-all"
                 >
-                  Chọn con giáp khác
+                  ← Trở lại danh sách
                 </Button>
               </div>
 
               {/* Result Header */}
-              <div className="result-card text-center">
-                <div className="text-6xl mb-4">
-                  {ZODIAC_ANIMALS.find(z => z.id === result.animal)?.emoji}
+              <div className="glass-card bg-[#0f172a]/60 border-amber-500/20 relative overflow-hidden text-center p-12 md:p-16">
+                <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-amber-500/10 to-transparent pointer-events-none" />
+                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-500/50 to-transparent" />
+                <div className="relative z-10">
+                  <div className="text-8xl mb-8 animate-float inline-block filter drop-shadow-[0_0_20px_rgba(245,158,11,0.4)]">
+                    {ZODIAC_ANIMALS.find(z => z.id === result.animal)?.emoji}
+                  </div>
+                  <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tight uppercase">
+                    Vận Trình {result.vietnameseName} 2026
+                  </h2>
+                  <div className="inline-flex items-center gap-3 px-6 py-2 rounded-full bg-amber-500/10 text-amber-400 text-sm font-bold border border-amber-500/20 backdrop-blur-md">
+                    <Sparkles className="w-4 h-4" />
+                    Bản tin Tử vi Cát tường - Năm Bính Ngọ
+                  </div>
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                  Dự Báo {result.vietnameseName} Năm {result.year}
-                </h2>
-                <p className="text-gray-500">
-                  Phân tích chi tiết vận mệnh theo từng tháng
-                </p>
               </div>
 
               {/* Forecast Content */}
-              <div className="result-card">
-                <div className="result-header">
-                  <div className="result-icon bg-gradient-to-br from-amber-100 to-orange-100">
-                    <Sparkles className="w-8 h-8 text-amber-600" />
+              <div className="glass-card bg-[#0f172a]/80 border-white/10 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 p-8 opacity-5">
+                    <Sparkles className="w-32 h-32 text-amber-500" />
+                </div>
+                <div className="result-header border-b border-white/5 pb-6 mb-10 relative z-10 flex items-center gap-5">
+                  <div className="flex-shrink-0 w-16 h-16 rounded-2xl bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30 flex items-center justify-center shadow-lg shadow-amber-500/10">
+                    <Sparkles className="w-8 h-8 text-amber-400" />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900">Dự Báo Chi Tiết</h3>
-                    <p className="text-gray-500">Phân tích từ trí tuệ nhân tạo</p>
+                    <h3 className="text-2xl font-black text-white tracking-tight uppercase">Cẩm Nang Vận Mệnh</h3>
+                    <p className="text-gray-400 font-medium">Luận giải chuyên sâu từ Chuyên gia Phong Thủy AI</p>
                   </div>
                 </div>
-                <div className="prose prose-gray max-w-none">
+                <div className="prose prose-invert prose-amber max-w-none relative z-10 leading-relaxed">
                   <Streamdown>{result.forecast}</Streamdown>
                 </div>
               </div>

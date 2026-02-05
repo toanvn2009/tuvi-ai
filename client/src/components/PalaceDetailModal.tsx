@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
@@ -152,126 +153,77 @@ export default function PalaceDetailModal({ palace, open, onOpenChange, input }:
 
   return (
     <>
-      {/* CSS Animation */}
       <style>{`
         @keyframes slideUpFade {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(20px); }
+          to { opacity: 1; transform: translateY(0); }
         }
-
         @keyframes scaleIn {
-          from {
-            opacity: 0;
-            transform: scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: scale(1);
-          }
+          from { opacity: 0; transform: scale(0.95); }
+          to { opacity: 1; transform: scale(1); }
         }
-
         @keyframes fadeIn {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
+          from { opacity: 0; }
+          to { opacity: 1; }
         }
-
-        .palace-modal-content {
-          animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .palace-modal-overlay {
-          animation: fadeIn 0.3s ease-out forwards;
-        }
-
-        .palace-header {
-          animation: scaleIn 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .palace-section {
-          animation: slideUpFade 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .palace-section:nth-child(2) {
-          animation-delay: 0.1s;
-        }
-
-        .palace-section:nth-child(3) {
-          animation-delay: 0.2s;
-        }
-
-        .palace-section:nth-child(4) {
-          animation-delay: 0.3s;
-        }
-
-        .palace-section:nth-child(5) {
-          animation-delay: 0.4s;
-        }
-
-        .palace-star-item {
-          animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .palace-badge {
-          animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
+        .palace-modal-content { animation: scaleIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+        .palace-section { animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; opacity: 0; }
+        .palace-section:nth-child(2) { animation-delay: 0.1s; }
+        .palace-section:nth-child(3) { animation-delay: 0.2s; }
+        .palace-section:nth-child(4) { animation-delay: 0.3s; }
+        .palace-section:nth-child(5) { animation-delay: 0.4s; }
       `}</style>
-
+      
       <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto palace-modal-content">
-          <DialogHeader className="palace-header">
-            <DialogTitle className="text-2xl">
-              <span className="text-amber-900">{palace.name}</span>
-              <span className="text-amber-600 ml-2 text-lg">({explanation.chinese})</span>
+        <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto palace-modal-content glass-card border border-white/10 bg-[#0f172a]/95 text-gray-100 shadow-2xl backdrop-blur-xl">
+          <DialogHeader className="border-b border-white/10 pb-4">
+            <DialogTitle className="text-2xl flex items-baseline gap-3">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-yellow-500 font-serif font-bold uppercase tracking-wide text-shadow-sm">
+                {palace.name}
+              </span>
+              <span className="text-amber-500/60 text-xl font-serif">({explanation.chinese})</span>
             </DialogTitle>
           </DialogHeader>
 
-          <ScrollArea className="h-full">
-            <div className="space-y-6 pr-4">
+          <ScrollArea className="h-full pr-4">
+            <div className="space-y-6 pt-2 pb-6">
               {/* Ý nghĩa cung */}
               <div className="palace-section">
-                <h3 className="font-bold text-amber-900 mb-2">Ý Nghĩa Cung</h3>
-                <p className="text-gray-700 leading-relaxed">{explanation.meaning}</p>
+                <h3 className="font-bold text-amber-400 mb-2 uppercase text-xs tracking-wider">Ý Nghĩa Cung</h3>
+                <p className="text-gray-300 leading-relaxed font-light">{explanation.meaning}</p>
               </div>
 
               {/* Ảnh hưởng */}
               <div className="palace-section">
-                <h3 className="font-bold text-amber-900 mb-2">Ảnh Hưởng</h3>
-                <p className="text-gray-700 leading-relaxed">{explanation.influence}</p>
+                <h3 className="font-bold text-amber-400 mb-2 uppercase text-xs tracking-wider">Ảnh Hưởng</h3>
+                <p className="text-gray-300 leading-relaxed font-light">{explanation.influence}</p>
               </div>
 
               {/* Sao chính */}
               {mainStars.length > 0 && (
                 <div className="palace-section">
-                  <h3 className="font-bold text-amber-900 mb-3">Sao Chính (Chính Tinh)</h3>
-                  <div className="space-y-2">
+                  <h3 className="font-bold text-purple-400 mb-3 uppercase text-xs tracking-wider">Chính Tinh (Sao Chính)</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {mainStars.map((star, i) => (
-                      <div key={i} className="palace-star-item bg-amber-50 p-3 rounded-lg border border-amber-200" style={{ animationDelay: `${i * 0.1}s` }}>
+                      <div key={i} className="bg-white/5 p-3 rounded-lg border border-white/10 hover:border-purple-500/30 transition-colors">
                         <div className="flex items-start justify-between">
                           <div>
-                            <p className={`font-bold ${star.nature === 'cat' ? 'text-red-600' :
-                              star.nature === 'hung' ? 'text-green-700' : 'text-gray-700'
-                              }`}>
-                              {star.name}
-                            </p>
-                            <p className="text-sm text-gray-600 mt-1">
-                              {STAR_MEANINGS[star.name] || `Sao ${star.name}`}
-                            </p>
-                          </div>
-                          <Badge className={`palace-badge ${star.nature === 'cat' ? 'bg-red-100 text-red-800' :
-                            star.nature === 'hung' ? 'bg-green-100 text-green-800' :
-                              'bg-gray-100 text-gray-800'
+                            <div className={`font-bold text-base ${
+                              star.nature === 'cat' || star.nature === 'good' ? 'text-amber-300' :
+                              star.nature === 'hung' || star.nature === 'bad' ? 'text-indigo-400' : 'text-gray-300'
                             }`}>
-                            {star.nature === 'cat' ? 'Cát' : star.nature === 'hung' ? 'Hung' : 'Trung'}
+                              {star.name}
+                            </div>
+                            <div className="text-xs text-gray-500 mt-1">
+                              {STAR_MEANINGS[star.name] || `Sao ${star.name}`}
+                            </div>
+                          </div>
+                          <Badge variant="outline" className={`border-none ${
+                            star.nature === 'cat' || star.nature === 'good' ? 'bg-amber-500/20 text-amber-300' :
+                            star.nature === 'hung' || star.nature === 'bad' ? 'bg-indigo-500/20 text-indigo-300' :
+                            'bg-gray-700/50 text-gray-400'
+                          }`}>
+                            {star.nature === 'cat' || star.nature === 'good' ? 'Cát' : star.nature === 'hung' || star.nature === 'bad' ? 'Hung' : 'Trung'}
                           </Badge>
                         </div>
                       </div>
@@ -283,86 +235,87 @@ export default function PalaceDetailModal({ palace, open, onOpenChange, input }:
               {/* Sao phụ */}
               {secondaryStars.length > 0 && (
                 <div className="palace-section">
-                  <h3 className="font-bold text-amber-900 mb-3">Sao Phụ (Phụ Tinh)</h3>
+                  <h3 className="font-bold text-gray-400 mb-3 uppercase text-xs tracking-wider">Phụ Tinh (Sao Phụ)</h3>
                   <div className="flex flex-wrap gap-2">
                     {secondaryStars.map((star, i) => (
-                      <Badge
+                      <div
                         key={i}
-                        className={`palace-badge px-3 py-1.5 ${star.nature === 'cat' ? 'bg-red-100 text-red-800' :
-                          star.nature === 'hung' ? 'bg-green-100 text-green-800' :
-                            'bg-gray-100 text-gray-800'
-                          }`}
-                        style={{ animationDelay: `${i * 0.05}s` }}
+                        className={`text-xs px-2.5 py-1 rounded border ${
+                            star.nature === 'cat' || star.nature === 'good' ? 'bg-amber-500/10 border-amber-500/20 text-amber-200' :
+                            star.nature === 'hung' || star.nature === 'bad' ? 'bg-indigo-500/10 border-indigo-500/20 text-indigo-300' :
+                            'bg-white/5 border-white/10 text-gray-400'
+                        }`}
                       >
                         {star.name}
-                      </Badge>
+                      </div>
                     ))}
                   </div>
                 </div>
               )}
 
-              {/* Tràng Sinh */}
-              {palace.trangSinh && (
-                <div className="palace-section">
-                  <h3 className="font-bold text-amber-900 mb-2">Tràng Sinh</h3>
-                  <p className="text-gray-700 bg-amber-50 p-3 rounded-lg border border-amber-200">
-                    {palace.trangSinh}
-                  </p>
-                </div>
-              )}
-
-              {/* Ngũ Hành */}
-              {palace.nguHanh && (
-                <div className="palace-section">
-                  <h3 className="font-bold text-amber-900 mb-2">Ngũ Hành</h3>
-                  <p className="text-gray-700 bg-amber-50 p-3 rounded-lg border border-amber-200">
-                    {palace.nguHanh}
-                  </p>
-                </div>
-              )}
+              {/* Tràng Sinh & Ngũ Hành Row */}
+              <div className="grid grid-cols-2 gap-4 palace-section">
+                {palace.trangSinh && (
+                    <div>
+                        <h3 className="font-bold text-gray-500 mb-2 uppercase text-[10px] tracking-wider">Tràng Sinh</h3>
+                        <div className="text-gray-200 bg-white/5 px-3 py-2 rounded border border-white/10 text-sm font-medium">
+                            {palace.trangSinh}
+                        </div>
+                    </div>
+                )}
+                {palace.nguHanh && (
+                    <div>
+                        <h3 className="font-bold text-gray-500 mb-2 uppercase text-[10px] tracking-wider">Ngũ Hành</h3>
+                        <div className="text-gray-200 bg-white/5 px-3 py-2 rounded border border-white/10 text-sm font-medium">
+                            {palace.nguHanh}
+                        </div>
+                    </div>
+                )}
+              </div>
 
               {/* AI Analysis Section */}
               {input && (
-                <div className="palace-section border-t-2 border-purple-100 pt-6 mt-6">
-                  <h3 className="font-bold text-purple-900 mb-4 flex items-center gap-2">
-                    <Sparkles className="w-5 h-5 text-purple-600" />
-                    Luận Giải Chi Tiết (AI)
+                <div className="palace-section border-t border-white/10 pt-6 mt-6">
+                  <h3 className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 mb-4 flex items-center gap-2 text-lg">
+                    <Sparkles className="w-5 h-5 text-purple-400 animate-pulse" />
+                    Luận Giải Chi Tiết (AI Master)
                   </h3>
 
                   {!aiAnalysis ? (
-                    <div className="text-center py-4">
-                      <p className="text-gray-600 mb-4 text-sm">
-                        Nhận phân tích chuyên sâu về cung {palace.name} từ AI Master
+                    <div className="text-center py-6 bg-white/5 rounded-xl border border-white/5 dashed border-dashed">
+                      <p className="text-gray-400 mb-4 text-sm">
+                        Nhận phân tích chuyên sâu về cung {palace.name} từ hệ thống AI cao cấp
                       </p>
                       <Button
                         onClick={handleAnalyzePalace}
                         disabled={analyzePalaceMutation.isPending}
-                        className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white"
+                        className="bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white border-0 shadow-lg shadow-purple-900/20"
                       >
                         {analyzePalaceMutation.isPending ? (
                           <>
                             <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                            Đang phân tích...
+                            Đang suy luận...
                           </>
                         ) : (
                           <>
                             <Sparkles className="w-4 h-4 mr-2" />
-                            Luận giải ngay
+                            Phân Tích Ngay
                           </>
                         )}
                       </Button>
                     </div>
                   ) : (
-                    <div className="bg-purple-50/50 p-4 rounded-lg border border-purple-200">
-                      <div className="prose prose-sm prose-purple max-w-none">
+                    <div className="glass-card bg-purple-900/10 p-5 rounded-xl border border-purple-500/20 relative overflow-hidden">
+                        <div className="absolute top-0 right-0 p-4 opacity-10">
+                            <Sparkles className="w-20 h-20 text-purple-500" />
+                        </div>
+                      <div className="prose prose-sm prose-invert max-w-none relative z-10">
                         <Streamdown>{aiAnalysis}</Streamdown>
                       </div>
                     </div>
                   )}
                 </div>
               )}
-
-
             </div>
           </ScrollArea>
         </DialogContent>

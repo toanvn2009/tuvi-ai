@@ -1,0 +1,52 @@
+{
+  "rituals": [
+    {
+      "id": "giao_thua",
+      "title": "Văn Khấn Giao Thừa",
+      "category": "tet",
+      "icon": "🎆",
+      "description": "Bài văn khấn cúng giao thừa đón năm mới, tiễn năm cũ",
+      "content": "Nam mô A Di Đà Phật! (3 lần)\n\nKính lạy:\n- Hoàng Thiên Hậu Thổ chư vị Tôn thần\n- Ngài Đương niên Thái Tuế chí đức Tôn thần\n- Ngài Bản cảnh Thành Hoàng chư vị Đại Vương\n- Ngài Bản xứ Thần linh Thổ địa\n- Ngài Định Phúc Táo Quân\n- Các ngài Ngũ phương, Ngũ thổ, Long mạch, Tài thần\n- Cùng liệt vị Gia tiên nội ngoại Tiên nhân\n\nHôm nay là ngày 30 tháng Chạp năm ___\n(tức ngày ___ tháng ___ năm ___ dương lịch)\n\nTín chủ con là: ___\nNgụ tại: ___\n\nThành tâm sắm lễ, hương hoa trà quả, thắp nén tâm hương dâng lên trước án.\n\nKính cẩn tâu trình:\nGiờ Giao thừa đã đến, năm ___ đã mãn, năm ___ vừa sang. Tín chủ chúng con thành tâm sửa soạn lễ vật, dâng cúng các ngài.\n\nCầu xin:\n- Gia đạo an khang\n- Vạn sự như ý\n- Bách bệnh tiêu tan\n- Tài lộc hanh thông\n- Gia đình sum vầy hạnh phúc\n\nChúng con lễ bạc tâm thành, trước án kính lễ, cúi xin được phù hộ độ trì.\n\nNam mô A Di Đà Phật! (3 lần)"
+    },
+    {
+      "id": "mung_1",
+      "title": "Văn Khấn Mùng 1 Tết",
+      "category": "tet",
+      "icon": "🧧",
+      "description": "Bài văn khấn cúng ngày mùng 1 Tết đầu năm mới",
+      "content": "Nam mô A Di Đà Phật! (3 lần)\n\nKính lạy:\n- Hoàng Thiên Hậu Thổ chư vị Tôn thần\n- Ngài Đương niên Thái Tuế chí đức Tôn thần\n- Ngài Bản cảnh Thành Hoàng chư vị Đại Vương\n- Ngài Bản xứ Thổ địa, Phúc đức chính thần\n- Các ngài Ngũ phương, Ngũ thổ, Long mạch, Tài thần, chư vị Tôn thần\n\nHôm nay là ngày Mùng 1 tháng Giêng năm ___\n(tức ngày ___ tháng ___ năm ___ dương lịch)\n\nTín chủ con là: ___\nNgụ tại: ___\n\nNhân tiết đầu Xuân, tín chủ con thành tâm sắm lễ, hương hoa trà quả, kính dâng trước án.\n\nTrộm nghĩ:\nĐầu năm mới đến, vận hội mới sang. Tín chủ cầu mong chư vị thần linh phù hộ cho:\n- Gia đạo bình an\n- Trên dưới thuận hòa\n- Làm ăn phát đạt\n- Tài lộc dồi dào\n- Sức khỏe bền lâu\n- Van sự hanh thông\n\nChúng con thành tâm bái thỉnh, kính cẩn dâng lên.\n\nNam mô A Di Đà Phật! (3 lần)"
+    },
+    {
+      "id": "than_tai",
+      "title": "Văn Khấn Thần Tài",
+      "category": "tet",
+      "icon": "💰",
+      "description": "Bài văn khấn cúng Thần Tài vào ngày vía (mùng 10 tháng Giêng)",
+      "content": "Nam mô A Di Đà Phật! (3 lần)\n\nKính lạy:\n- Đức Hoàng Thiên Hậu Thổ\n- Ngài Ngũ phương Ngũ thổ Phúc đức chính thần\n- Đức Ông Tiền Tài, Ngài Thổ Địa chính thần\n\nHôm nay là ngày ___ tháng ___ năm ___\n(tức ngày ___ tháng ___ năm ___ dương lịch)\n\nTín chủ con là: ___\nNgụ tại: ___\nLàm ăn (ngành nghề): ___\n\nNhân ngày vía Thần Tài, tín chủ con thành tâm sắm lễ, hương hoa trà quả, thắp nén tâm hương dâng lên trước án Đức Ông.\n\nCầu xin:\n- Tài lộc hanh thông\n- Buôn may bán đắt\n- Tiền vào như nước\n- Công việc thuận lợi\n- Gia đạo hưng long\n\nChúng con lễ bạc tâm thành, kính dâng Đức Ông chứng giám, phù hộ độ trì.\n\nNam mô A Di Đà Phật! (3 lần)"
+    },
+    {
+      "id": "khai_truong",
+      "title": "Văn Khấn Khai Trương",
+      "category": "business",
+      "icon": "🏪",
+      "description": "Bài văn khấn cúng khai trương đầu năm hoặc mở cửa hàng mới",
+      "content": "Nam mô A Di Đà Phật! (3 lần)\n\nKính lạy:\n- Hoàng Thiên Hậu Thổ chư vị Tôn thần\n- Ngài Bản cảnh Thành Hoàng\n- Ngài Bản xứ Thổ địa Long mạch\n- Ngài Thần Tài, Ông Địa, Thần Tiền\n- Các ngài Ngũ phương Tài thần\n\nHôm nay là ngày ___ tháng ___ năm ___\n(tức ngày ___ tháng ___ năm ___ dương lịch)\n\nTín chủ con là: ___\nĐịa chỉ kinh doanh: ___\nNgành nghề: ___\n\nNhân ngày lành tháng tốt, tín chủ con khai trương ___ (tên cửa hàng/công ty), thành tâm sắm sửa lễ vật, hương hoa trà quả, dâng lên các ngài.\n\nCầu xin các ngài phù hộ cho:\n- Khai trương đắc lợi\n- Buôn may bán đắt\n- Khách hàng đông đúc\n- Công việc hanh thông\n- Tài lộc dồi dào\n- Thuận buồm xuôi gió\n\nChúng con thành tâm bái lễ, cúi xin chứng giám.\n\nNam mô A Di Đà Phật! (3 lần)"
+    },
+    {
+      "id": "dong_tho",
+      "title": "Văn Khấn Động Thổ",
+      "category": "construction",
+      "icon": "🏗️",
+      "description": "Bài văn khấn cúng lễ động thổ xây nhà, công trình",
+      "content": "Nam mô A Di Đà Phật! (3 lần)\n\nKính lạy:\n- Hoàng Thiên Hậu Thổ chư vị Tôn thần\n- Ngài Bản cảnh Thành Hoàng Bản xứ Thổ địa\n- Ngài Long mạch, Táo quân, Thổ công\n- Các ngài Ngũ phương, Ngũ thổ chí đức Tôn thần\n\nHôm nay là ngày ___ tháng ___ năm ___\n(tức ngày ___ tháng ___ năm ___ dương lịch)\n\nTín chủ con là: ___\nĐịa chỉ công trình: ___\n\nNhân ngày lành tháng tốt, tín chủ con khởi công xây dựng ___ (tên công trình), thành tâm sắm lễ, hương hoa trà quả, dâng lên các ngài.\n\nCầu xin:\n- Động thổ bình an\n- Công trình thuận lợi\n- Thợ thầy mạnh khỏe\n- Không gặp tai nạn\n- Công việc êm xuôi\n- Nền móng vững chãi\n\nXin các ngài chứng giám lòng thành, phù hộ độ trì.\n\nNam mô A Di Đà Phật! (3 lần)"
+    },
+    {
+      "id": "nhap_trach",
+      "title": "Văn Khấn Nhập Trạch",
+      "category": "home",
+      "icon": "🏠",
+      "description": "Bài văn khấn cúng nhập trạch khi dọn về nhà mới",
+      "content": "Nam mô A Di Đà Phật! (3 lần)\n\nKính lạy:\n- Hoàng Thiên Hậu Thổ chư vị Tôn thần\n- Ngài Bản cảnh Thành Hoàng Bản xứ Thổ địa\n- Ngài Thổ công, Táo quân, Gia tiên Bản gia\n- Các ngài Ngũ phương, Ngũ thổ, Long mạch chính thần\n\nHôm nay là ngày ___ tháng ___ năm ___\n(tức ngày ___ tháng ___ năm ___ dương lịch)\n\nTín chủ con là: ___\nĐịa chỉ nhà mới: ___\n\nNhân ngày lành tháng tốt, gia đình chúng con dọn về nhập trạch nhà mới, thành tâm sắm lễ, hương hoa trà quả, kính dâng các ngài.\n\nCầu xin các ngài cho phép gia đình con được:\n- An cư lạc nghiệp\n- Gia đạo bình an\n- Nhà ấm cửa êm\n- Phúc lộc song toàn\n- Gia đình hạnh phúc\n- Vạn sự như ý\n\nChúng con lễ bạc tâm thành, xin các ngài chứng giám.\n\nNam mô A Di Đà Phật! (3 lần)"
+    }
+  ]
+}

@@ -1,18 +1,18 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, json, boolean } from "drizzle-orm/mysql-core";
+import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 /**
  * Core user table backing auth flow.
  */
-export const users = mysqlTable("users", {
-  id: int("id").autoincrement().primaryKey(),
-  openId: varchar("openId", { length: 64 }).notNull().unique(),
+export const users = sqliteTable("users", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  openId: text("openId").notNull().unique(),
   name: text("name"),
-  email: varchar("email", { length: 320 }),
-  loginMethod: varchar("loginMethod", { length: 64 }),
-  role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
-  lastSignedIn: timestamp("lastSignedIn").defaultNow().notNull(),
+  email: text("email"),
+  loginMethod: text("loginMethod"),
+  role: text("role", { enum: ["user", "admin"] }).default("user").notNull(),
+  createdAt: integer("createdAt", { mode: "timestamp" }).default(new Date()).notNull(),
+  updatedAt: integer("updatedAt", { mode: "timestamp" }).default(new Date()).notNull(),
+  lastSignedIn: integer("lastSignedIn", { mode: "timestamp" }).default(new Date()).notNull(),
 });
 
 export type User = typeof users.$inferSelect;
@@ -21,14 +21,14 @@ export type InsertUser = typeof users.$inferInsert;
 /**
  * LLM Configuration table for admin settings
  */
-export const llmSettings = mysqlTable("llm_settings", {
-  id: int("id").autoincrement().primaryKey(),
-  baseUrl: varchar("baseUrl", { length: 512 }).notNull().default("https://api.openai.com/v1"),
-  model: varchar("model", { length: 128 }).notNull().default("gpt-4"),
-  apiKey: varchar("apiKey", { length: 256 }).notNull(),
-  isActive: boolean("isActive").default(true).notNull(),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+export const llmSettings = sqliteTable("llm_settings", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  baseUrl: text("baseUrl").notNull().default("https://api.openai.com/v1"),
+  model: text("model").notNull().default("gpt-4"),
+  apiKey: text("apiKey").notNull(),
+  isActive: integer("isActive", { mode: "boolean" }).default(true).notNull(),
+  createdAt: integer("createdAt", { mode: "timestamp" }).default(new Date()).notNull(),
+  updatedAt: integer("updatedAt", { mode: "timestamp" }).default(new Date()).notNull(),
 });
 
 export type LLMSetting = typeof llmSettings.$inferSelect;
@@ -37,17 +37,17 @@ export type InsertLLMSetting = typeof llmSettings.$inferInsert;
 /**
  * Tử Vi readings history
  */
-export const tuviReadings = mysqlTable("tuvi_readings", {
-  id: int("id").autoincrement().primaryKey(),
-  userId: int("userId").references(() => users.id),
-  fullName: varchar("fullName", { length: 256 }).notNull(),
-  birthDate: varchar("birthDate", { length: 32 }).notNull(),
-  birthHour: varchar("birthHour", { length: 32 }).notNull(),
-  gender: mysqlEnum("gender", ["male", "female"]).notNull(),
-  calendarType: mysqlEnum("calendarType", ["lunar", "solar"]).notNull(),
-  chartData: json("chartData"),
+export const tuviReadings = sqliteTable("tuvi_readings", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  userId: integer("userId").references(() => users.id),
+  fullName: text("fullName").notNull(),
+  birthDate: text("birthDate").notNull(),
+  birthHour: text("birthHour").notNull(),
+  gender: text("gender", { enum: ["male", "female"] }).notNull(),
+  calendarType: text("calendarType", { enum: ["lunar", "solar"] }).notNull(),
+  chartData: text("chartData", { mode: "json" }),
   aiAnalysis: text("aiAnalysis"),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  createdAt: integer("createdAt", { mode: "timestamp" }).default(new Date()).notNull(),
 });
 
 export type TuviReading = typeof tuviReadings.$inferSelect;
@@ -56,39 +56,39 @@ export type InsertTuviReading = typeof tuviReadings.$inferInsert;
 /**
  * Numerology readings history
  */
-export const numerologyReadings = mysqlTable("numerology_readings", {
-  id: int("id").autoincrement().primaryKey(),
-  userId: int("userId").references(() => users.id),
-  fullName: varchar("fullName", { length: 256 }).notNull(),
-  birthDate: varchar("birthDate", { length: 32 }).notNull(),
-  lifePathNumber: int("lifePathNumber").notNull(),
-  soulNumber: int("soulNumber").notNull(),
-  personalityNumber: int("personalityNumber").notNull(),
-  destinyNumber: int("destinyNumber").notNull(),
-  birthDayNumber: int("birthDayNumber").notNull(),
-  birthChart: json("birthChart"),
+export const numerologyReadings = sqliteTable("numerology_readings", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  userId: integer("userId").references(() => users.id),
+  fullName: text("fullName").notNull(),
+  birthDate: text("birthDate").notNull(),
+  lifePathNumber: integer("lifePathNumber").notNull(),
+  soulNumber: integer("soulNumber").notNull(),
+  personalityNumber: integer("personalityNumber").notNull(),
+  destinyNumber: integer("destinyNumber").notNull(),
+  birthDayNumber: integer("birthDayNumber").notNull(),
+  birthChart: text("birthChart", { mode: "json" }),
   aiAnalysis: text("aiAnalysis"),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  createdAt: integer("createdAt", { mode: "timestamp" }).default(new Date()).notNull(),
 });
 
 export type NumerologyReading = typeof numerologyReadings.$inferSelect;
 export type InsertNumerologyReading = typeof numerologyReadings.$inferInsert;
 
-export const tuviStars = mysqlTable("tuvi_stars", {
-  id: int("id").autoincrement().primaryKey(),
-  vietnameseName: varchar("vietnameseName", { length: 128 }).notNull().unique(),
-  chineseName: varchar("chineseName", { length: 64 }).notNull(),
-  pinyin: varchar("pinyin", { length: 64 }),
-  nature: mysqlEnum("nature", ["cat", "hung", "neutral"]).notNull(),
-  type: mysqlEnum("type", ["main", "secondary", "auxiliary"]).default("main").notNull(),
+export const tuviStars = sqliteTable("tuvi_stars", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  vietnameseName: text("vietnameseName").notNull().unique(),
+  chineseName: text("chineseName").notNull(),
+  pinyin: text("pinyin"),
+  nature: text("nature", { enum: ["cat", "hung", "neutral"] }).notNull(),
+  type: text("type", { enum: ["main", "secondary", "auxiliary"] }).default("main").notNull(),
   meaning: text("meaning"),
   description: text("description"),
   influence: text("influence"),
-  palaceInfluence: json("palaceInfluence"),
+  palaceInfluence: text("palaceInfluence", { mode: "json" }),
   remedy: text("remedy"),
-  compatibility: json("compatibility"),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  compatibility: text("compatibility", { mode: "json" }),
+  createdAt: integer("createdAt", { mode: "timestamp" }).default(new Date()).notNull(),
+  updatedAt: integer("updatedAt", { mode: "timestamp" }).default(new Date()).notNull(),
 });
 
 export type TuviStar = typeof tuviStars.$inferSelect;
@@ -98,18 +98,18 @@ export type InsertTuviStar = typeof tuviStars.$inferInsert;
  * Tử Vi AI Analysis Cache
  * Cache kết quả phân tích AI để tránh gọi API LLM nhiều lần cho cùng input
  */
-export const tuviCache = mysqlTable("tuvi_cache", {
-  id: int("id").autoincrement().primaryKey(),
-  birthDate: varchar("birthDate", { length: 32 }).notNull(),
-  birthHour: varchar("birthHour", { length: 32 }).notNull(),
-  gender: mysqlEnum("gender", ["male", "female"]).notNull(),
-  calendarType: mysqlEnum("calendarType", ["lunar", "solar"]).notNull(),
-  year: int("year").notNull(), // Năm sinh để cache riêng theo năm
-  chartData: json("chartData").notNull(), // Lưu chart data đã tính
+export const tuviCache = sqliteTable("tuvi_cache", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  birthDate: text("birthDate").notNull(),
+  birthHour: text("birthHour").notNull(),
+  gender: text("gender", { enum: ["male", "female"] }).notNull(),
+  calendarType: text("calendarType", { enum: ["lunar", "solar"] }).notNull(),
+  year: integer("year").notNull(), // Năm sinh để cache riêng theo năm (using integer for year)
+  chartData: text("chartData", { mode: "json" }).notNull(), // Lưu chart data đã tính
   aiAnalysis: text("aiAnalysis").notNull(), // Kết quả phân tích AI tổng quan
-  palaceAnalyses: json("palaceAnalyses"), // Lưu phân tích chi tiết 12 cung: { "Mệnh": "...", "Phụ Mẫu": "...", ... }
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  palaceAnalyses: text("palaceAnalyses", { mode: "json" }), // Lưu phân tích chi tiết 12 cung: { "Mệnh": "...", "Phụ Mẫu": "...", ... }
+  createdAt: integer("createdAt", { mode: "timestamp" }).default(new Date()).notNull(),
+  updatedAt: integer("updatedAt", { mode: "timestamp" }).default(new Date()).notNull(),
 });
 
 export type TuviCache = typeof tuviCache.$inferSelect;
@@ -119,20 +119,20 @@ export type InsertTuviCache = typeof tuviCache.$inferInsert;
  * Numerology AI Analysis Cache
  * Cache kết quả phân tích AI để tránh gọi API LLM nhiều lần cho cùng ngày sinh
  */
-export const numerologyCache = mysqlTable("numerology_cache", {
-  id: int("id").autoincrement().primaryKey(),
-  fullName: varchar("fullName", { length: 256 }).notNull(),
-  birthDate: varchar("birthDate", { length: 32 }).notNull(), // YYYY-MM-DD format
-  year: int("year").notNull(), // Năm sinh để cache riêng theo năm
-  lifePathNumber: int("lifePathNumber").notNull(),
-  soulNumber: int("soulNumber").notNull(),
-  personalityNumber: int("personalityNumber").notNull(),
-  destinyNumber: int("destinyNumber").notNull(),
-  birthDayNumber: int("birthDayNumber").notNull(),
-  birthChart: json("birthChart").notNull(), // Kết quả tính toán numerology
+export const numerologyCache = sqliteTable("numerology_cache", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  fullName: text("fullName").notNull(),
+  birthDate: text("birthDate").notNull(), // YYYY-MM-DD format
+  year: integer("year").notNull(), // Năm sinh để cache riêng theo năm
+  lifePathNumber: integer("lifePathNumber").notNull(),
+  soulNumber: integer("soulNumber").notNull(),
+  personalityNumber: integer("personalityNumber").notNull(),
+  destinyNumber: integer("destinyNumber").notNull(),
+  birthDayNumber: integer("birthDayNumber").notNull(),
+  birthChart: text("birthChart", { mode: "json" }).notNull(), // Kết quả tính toán numerology
   aiAnalysis: text("aiAnalysis").notNull(), // Kết quả phân tích AI
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  createdAt: integer("createdAt", { mode: "timestamp" }).default(new Date()).notNull(),
+  updatedAt: integer("updatedAt", { mode: "timestamp" }).default(new Date()).notNull(),
 });
 
 export type NumerologyCache = typeof numerologyCache.$inferSelect;
@@ -142,13 +142,13 @@ export type InsertNumerologyCache = typeof numerologyCache.$inferInsert;
  * Zodiac Forecast Cache
  * Cache dự báo vận mệnh 12 con giáp
  */
-export const zodiacCache = mysqlTable("zodiac_cache", {
-  id: int("id").autoincrement().primaryKey(),
-  animal: varchar("animal", { length: 32 }).notNull(), // rat, ox, ...
-  year: int("year").notNull(), // Năm dự báo (2026)
+export const zodiacCache = sqliteTable("zodiac_cache", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  animal: text("animal").notNull(), // rat, ox, ...
+  year: integer("year").notNull(), // Năm dự báo (2026)
   content: text("content").notNull(), // Nội dung dự báo
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  createdAt: integer("createdAt", { mode: "timestamp" }).default(new Date()).notNull(),
+  updatedAt: integer("updatedAt", { mode: "timestamp" }).default(new Date()).notNull(),
 });
 
 export type ZodiacCache = typeof zodiacCache.$inferSelect;
@@ -158,15 +158,15 @@ export type InsertZodiacCache = typeof zodiacCache.$inferInsert;
  * Tet Tools Cache
  * Cache kết quả các công cụ Tết (Xông đất, Lời khuyên tổng hợp)
  */
-export const tetCache = mysqlTable("tet_cache", {
-  id: int("id").autoincrement().primaryKey(),
-  functionName: varchar("functionName", { length: 32 }).notNull(), // 'xongDat', 'fullAdvice'
-  birthYear: int("birthYear").notNull(), // Năm sinh của user
-  year: int("year").notNull(), // Năm Tết (2026)
-  data: json("data").notNull(), // Kết quả tính toán (JSON)
+export const tetCache = sqliteTable("tet_cache", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  functionName: text("functionName").notNull(), // 'xongDat', 'fullAdvice'
+  birthYear: integer("birthYear").notNull(), // Năm sinh của user
+  year: integer("year").notNull(), // Năm Tết (2026)
+  data: text("data", { mode: "json" }).notNull(), // Kết quả tính toán (JSON)
   aiAdvice: text("aiAdvice").notNull(), // Lời khuyên AI
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+  createdAt: integer("createdAt", { mode: "timestamp" }).default(new Date()).notNull(),
+  updatedAt: integer("updatedAt", { mode: "timestamp" }).default(new Date()).notNull(),
 });
 
 export type TetCache = typeof tetCache.$inferSelect;

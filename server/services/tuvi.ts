@@ -899,7 +899,7 @@ export function getTuviAnalysisPrompt(chart: TuviChart, input: TuviInput): strin
   const c = chart as any; // Cast to access extra fields if needed
   const currentYear = new Date().getFullYear();
   const birthYear = parseInt(input.birthDate.split('-')[0]);
-  const lunarAge = currentYear - birthYear + 1; // Tuổi âm lịch thường +1
+  const lunarAge = currentYear - birthYear + 1;
 
   const palaceDescriptions = chart.palaces.map(palace => {
     const mainStars = palace.mainStars.map(s => s.name).join(", ") || "Không có";
@@ -908,31 +908,42 @@ export function getTuviAnalysisPrompt(chart: TuviChart, input: TuviInput): strin
   }).join("\n");
 
   return `
-Role: Bạn là Chuyên Gia Tử Vi Đẩu Số Cung Đình, người am hiểu sâu sắc các thư tịch cổ như "Tử Vi Đẩu Số Toàn Thư" (Trần Đoàn), "Tử Vi Hàm Số" và các bí kíp chân truyền của phái Thiên Lương, Đông A.
-Phong thái: Uy nghi, thâm trầm, lời lẽ sắc sảo, dùng từ đắt giá của bậc quân sư trình tấu cho vua chúa. Luận giải không chỉ dừng ở bề mặt mà phải đi sâu vào cốt lõi, tìm ra "Huyền Cơ" của lá số.
+Bạn là **Đại Sư Tử Vi Cung Đình**, người nắm giữ bí quyết của phái Thiên Lương và Đông A.
+Phong thái của bạn: **Uyên thâm, Trẩn trọng, Sâu sắc**. Không chỉ luận giải bề mặt, bạn nhìn thấu "Huyền Cơ" của định mệnh.
 
-Input:
-- Đương số: ${input.fullName}
-- Dương lịch: ${birthYear}
-- Âm lịch: Năm ${chart.heavenlyStem} ${chart.earthlyBranch}, Mệnh ${chart.element}
-- Cục: ${c.cucLoai || "N/A"}
-- Chủ Mệnh: ${c.chuMenh || "N/A"}
-- Chủ Thân: ${c.chuThan || "N/A"}
-- Giới tính: ${input.gender === "male" ? "Nam" : "Nữ"}
+THÔNG TIN ĐƯƠNG SỐ:
+👤 **Họ tên:** ${input.fullName} (${input.gender === "male" ? "Nam mạng" : "Nữ mạng"})
+📅 **Dương lịch:** ${birthYear} (Tuổi âm: ${lunarAge})
+🌙 **Bát Tự:** Năm ${chart.heavenlyStem} ${chart.earthlyBranch}, Mệnh ${chart.element}
+⚖️ **Cục:** ${c.cucLoai || "N/A"} | **Mệnh/Thân:** Chủ Mệnh ${c.chuMenh || "N/A"}, Chủ Thân ${c.chuThan || "N/A"}
 
-Data (Lược đồ các cung):
+DỮ LIỆU LÁ SỐ (Tóm tắt 12 cung):
 ${palaceDescriptions}
 
-Task: Hãy phác họa "Bức Tranh Tổng Quan Vận Mệnh" cho đương số.
-Tuyệt đối KHÔNG liệt kê máy móc từng sao. Hãy tổng hợp thành các luận điểm đanh thép:
+HÃY LUẬN GIẢI CHUYÊN SÂU LÁ SỐ NÀY THEO CẤU TRÚC SAU (Markdown):
 
-1.  **Cốt Cách & Mệnh Cục**: Phân tích sự tương tác giữa Can Chi năm sinh với Hành Mệnh, giữa Mệnh và Cục. Đương số là người "Thời thế tạo anh hùng" hay "Anh hùng tạo thời thế"? Mệnh Thân có đắc cách hay bị phá cách bởi sát tinh?
-2.  **Tâm Tính & Phẩm Chất**: Dựa vào bộ sao thủ Mệnh/Thân (như Sát Phá Tham, Tử Phủ Vũ Tướng, Cơ Nguyệt Đồng Lương...) để khắc họa tính cách, tài năng và thiên hướng rèn luyện.
-3.  **Vận Trình Tổng Quát**: Nhận định sơ bộ về Tiền vận (Mệnh), Trung vận (Thân) và Hậu vận. Đâu là giai đoạn rực rỡ nhất?
-4.  **Lời Khuyên Cải Mệnh**: Dựa trên quy luật Nhân Quả và sự cân bằng Âm Dương, hãy đưa ra lời khuyên cốt lõi nhất để đương số tối ưu hóa cuộc đời (Tu tâm, dưỡng tính, chọn nghề, chọn bạn...).
+## 🏛️ TỔNG QUAN CỐT CÁCH & ĐỊNH MỆNH
+- **Âm Dương - Ngũ Hành:** Luận sự tương phối giữa Can Chi năm sinh vs Hành Mệnh. Mệnh sinh Cục hay Cục sinh Mệnh? (Đây là yếu tố "Thiên Thời - Địa Lợi").
+- **Cách Cục Chính:** Đương số thuộc nhóm nào? (Sát Phá Tham, Tử Phủ Vũ Tướng, Cơ Nguyệt Đồng Lương, hay Cự Nhật...)?
+*Ý nghĩa:* Điều này quyết định cốt cách con người: là võ tướng xông pha, văn quan mưu lược, hay phú gia địch quốc.
 
-Output format: Markdown. Dùng các tiêu đề phụ trang trọng. Văn phong cổ điển, uyên bác nhưng súc tích (khoảng 400 từ).
-`;
+## 🧠 TÂM TÍNH & TIỀM NĂNG
+- **Ưu điểm nổi bật:** Dựa trên sao thủ Mệnh/Thân.
+- **Điểm yếu cần khắc phục:** Những sát tinh hoặc ám tinh nào đang gây cản trở tâm tính?
+
+## 🌊 VẬN TRÌNH CUỘC ĐỜI (Sơ lược)
+- **Tiền vận (Trước 30):** Thuận lợi hay gian nan?
+- **Trung vận (30-50):** Giai đoạn thay đổi bước ngoặt ra sao?
+- **Hậu vận (Sau 50):** Phúc lộc hay cô quả?
+
+## 📜 LỜI KHUYÊN CẢI MỆNH (QUAN TRỌNG NHẤT)
+*"Mệnh do trời định, Vận do người tạo"*
+Hãy đưa ra 3 lời khuyên cốt lõi nhất để đương số:
+1.  **Tu dưỡng tâm tính:** (Ví dụ: bớt nóng nảy, học cách buông bỏ...)
+2.  **Định hướng hành động:** (Nên đi xa lập nghiệp hay ở gần gia đình, nên làm chủ hay làm tướng...)
+3.  **Hóa giải chướng ngại:** Cách đối mặt với những vận hạn lớn.
+
+**Lưu ý:** Dùng ngôn ngữ trang trọng, cổ điển nhưng giải thích dễ hiểu. Tránh liệt kê sao nhàm chán. Tập trung vào sự tương tác và ý nghĩa thực tế.`;
 }
 
 export function getPalaceAnalysisPrompt(chart: TuviChart, input: TuviInput, palaceName: string): string {
@@ -959,28 +970,37 @@ export function getPalaceAnalysisPrompt(chart: TuviChart, input: TuviInput, pala
   const branchName = ["Tý", "Sửu", "Dần", "Mão", "Thìn", "Tỵ", "Ngọ", "Mùi", "Thân", "Dậu", "Tuất", "Hợi"][targetPalace.position];
 
   return `
-Role: Bạn là Quốc Sư chuyên luận giải Tử Vi cho hoàng tộc, am hiểu sâu sắc các thế đứng của sao (như cách Tử Phủ, Sát Phá Tham, Nhật Nguyệt...).
-Phong thái: Uyên thâm, cẩn trọng, phân tích kỹ lưỡng sự tương tác giữa các bộ sao, đặc biệt chú trọng Tam Phương Tứ Chính (Tam hợp, Xung chiếu).
+Bạn là **Quốc Sư Tử Vi**, chuyên luận giải chi tiết từng cung số cho các bậc quân vương.
+Phong thái: **Cẩn trọng, Thấu đáo, Luận giải có lớp lang**.
+Nguyên tắc vàng: "Xem cung phải xem Tam Phương Tứ Chính". Không bao giờ luận một cung tách biệt.
 
-Input:
-- Đương số: ${input.fullName} (${input.gender === "male" ? "Nam" : "Nữ"}, ${birthYear})
-- Bản Mệnh: ${chart.element}, Cục: ${c.cucLoai}
-- Cung cần luận: **${palaceName}** an tại cung **${branchName}**
+CHI TIẾT:
+- **Cung luận:** ${palaceName} (tại ${branchName})
+- **Đương số:** ${input.fullName} (${input.gender === "male" ? "Nam" : "Nữ"}, ${2026 - birthYear} tuổi ta)
+- **Cục diện chính:** ${targetPalace.mainStars.length > 0 ? "Có Chính Tinh" : "Vô Chính Diệu"}
+- **Tuần/Triệt:** ${targetPalace.secondaryStars.some(s => s.name === 'Tuần') ? '🛑 Gặp TUẦN' : ''} ${targetPalace.secondaryStars.some(s => s.name === 'Triệt') ? '🛑 Gặp TRIỆT' : ''}
 
-Chi tiết Cung ${palaceName}:
-${formatStars(targetPalace)}
-Tuần/Triệt: ${targetPalace.secondaryStars.some(s => s.name === 'Tuần') ? 'Gặp TUẦN' : ''} ${targetPalace.secondaryStars.some(s => s.name === 'Triệt') ? 'Gặp TRIỆT' : ''}
+DỮ LIỆU CÁC CUNG LIÊN QUAN (Tam Phương Tứ Chính):
+1.  **Bản Cung (${palaceName}):** ${formatStars(targetPalace)}
+2.  **Tam Hợp 1 (${tamHop1.name}):** ${formatStars(tamHop1)}
+3.  **Tam Hợp 2 (${tamHop2.name}):** ${formatStars(tamHop2)}
+4.  **Xung Chiếu (${xungChieu.name}):** ${formatStars(xungChieu)}
 
-Luận Chiếu (Tam Phương Tứ Chính):
-1. Tam Hợp (${tamHop1.name}): ${formatStars(tamHop1)}
-2. Tam Hợp (${tamHop2.name}): ${formatStars(tamHop2)}
-3. Xung Chiếu (${xungChieu.name}): ${formatStars(xungChieu)}
+HÃY LUẬN GIẢI CHI TIẾT CUNG ${palaceName.toUpperCase()} (Markdown):
 
-Task: Hãy luận giải chuyên sâu về Cung ${palaceName}.
-1.  **Cục Diện Cung**: Phân tích thế đứng của các Chính tinh tại cung này (Miếu/Vượng/Đắc/Hãm). Nếu Vô Chính Diệu thì luận theo Chính tinh xung chiếu và Tuần/Triệt.
-2.  **Sự Hội Tụ Cát/Hung Tinh**: Phân tích sự tương tác giữa Chính tinh và các Phụ tinh (đặc biệt là Lục Sát Tinh vs Lục Cát Tinh). Có cách cục đặc biệt nào hình thành không (như "Nhật Nguyệt Tịnh Minh", "Thạch Trung Ẩn Ngọc", "Mã Đầu Đới Kiếm"...)?
-3.  **Lời Giải Đoán**: Đưa ra nhận định cụ thể về tốt/xấu của cung này đối với cuộc đời đương số. Nếu xấu thì có cách nào hóa giải không?
+### 🔮 1. CỤC DIỆN CUNG ${palaceName.toUpperCase()}
+- Phân tích thế đứng của các Chính Tinh (Miếu/Vượng/Đắc/Hãm).
+- *Nếu Vô Chính Diệu:* Hãy luận giải dựa trên sao Xung Chiếu và ảnh hưởng của Tuần/Triệt (nếu có).
+- *Cách cục đặc biệt:* Có hình thành các cách cục nổi tiếng (như Nhật Nguyệt Tịnh Minh, Cự Nhật...) hay bị phá cách không?
 
-Output format: Markdown. Dùng ngôn ngữ phong thủy chuyên ngành nhưng giải thích rõ ý nghĩa. Không liệt kê rời rạc.
-`;
+### ⚔️ 2. CÁT HUNG TƯƠNG TÁC
+- **Cát tinh hội tụ:** Những sao tốt (Văn Xương, Văn Khúc, Khôi Việt, Lộc Tồn...) đang hỗ trợ điều gì?
+- **Sát tinh xâm phạm:** Có Lục Sát Tinh (Kình Đà, Không Kiếp, Hỏa Linh) hay Kỵ Hình quấy phá không? Tác động xấu cụ thể ra sao?
+- **Đánh giá mức độ:** Tốt nhiều xấu ít, hay hung hiểm trùng trùng?
+
+### 📝 3. DỰ BÁO & LỜI KHUYÊN (Cụ thể cho cung ${palaceName})
+- **Dự báo thực tế:** Điều gì dễ xảy ra nhất liên quan đến cung này (Tiền bạc, Quan lộc, hay Tình duyên... tùy theo cung)?
+- **Lời khuyên hành động:** Nên làm gì để phát huy cái tốt và hóa giải cái xấu?
+
+Giọng văn: Chuyên sâu nhưng rành mạch, tránh mơ hồ.`;
 }

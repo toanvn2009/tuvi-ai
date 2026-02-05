@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -112,7 +113,7 @@ Khám phá độ tương hợp của bạn tại Tử Vi AI!`;
       <DialogTrigger asChild>
         <Button
           variant="outline"
-          className="gap-2 hover:bg-purple-50 hover:border-purple-300 hover:text-purple-600 transition-all duration-200"
+          className="gap-2 bg-transparent hover:bg-white/10 text-purple-300 border-purple-500/30 hover:border-purple-400 transition-all duration-200"
           onClick={(e) => {
             if (typeof navigator !== 'undefined' && 'share' in navigator) {
               e.preventDefault();
@@ -124,20 +125,20 @@ Khám phá độ tương hợp của bạn tại Tử Vi AI!`;
           Chia sẻ
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="sm:max-w-md glass-card bg-[#0f172a]/95 text-gray-100 border-white/10">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <Share2 className="w-5 h-5 text-purple-600" />
+          <DialogTitle className="flex items-center gap-2 text-purple-300">
+            <Share2 className="w-5 h-5 text-purple-500" />
             Chia sẻ kết quả
           </DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-gray-400">
             Chia sẻ kết quả {type === "tuvi" ? "Tử Vi" : "Thần Số Học"} của bạn lên mạng xã hội
           </DialogDescription>
         </DialogHeader>
         
         {/* Preview */}
-        <div className="bg-gradient-to-br from-purple-50 to-indigo-50 rounded-lg p-4 border border-purple-100">
-          <p className="text-sm text-gray-700 whitespace-pre-line">{shareText}</p>
+        <div className="bg-white/5 rounded-lg p-4 border border-white/10">
+          <p className="text-sm text-gray-300 whitespace-pre-line font-mono">{shareText}</p>
         </div>
 
         {/* Share buttons */}
@@ -145,48 +146,48 @@ Khám phá độ tương hợp của bạn tại Tử Vi AI!`;
           {/* Facebook */}
           <Button
             variant="outline"
-            className="flex flex-col items-center gap-2 h-auto py-4 hover:bg-blue-50 hover:border-blue-300 hover:text-blue-600 transition-all duration-200 group"
+            className="flex flex-col items-center gap-2 h-auto py-4 bg-transparent border-white/10 hover:bg-blue-900/20 hover:border-blue-500/50 hover:text-blue-400 transition-all duration-200 group"
             onClick={shareToFacebook}
           >
-            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center group-hover:bg-blue-200 transition-colors">
-              <Facebook className="w-5 h-5 text-blue-600" />
+            <div className="w-10 h-10 rounded-full bg-blue-900/20 flex items-center justify-center group-hover:bg-blue-800/30 transition-colors">
+              <Facebook className="w-5 h-5 text-blue-500" />
             </div>
-            <span className="text-xs font-medium">Facebook</span>
+            <span className="text-xs font-medium text-gray-300 group-hover:text-blue-400">Facebook</span>
           </Button>
 
           {/* Zalo */}
           <Button
             variant="outline"
-            className="flex flex-col items-center gap-2 h-auto py-4 hover:bg-blue-50 hover:border-blue-300 hover:text-blue-600 transition-all duration-200 group"
+            className="flex flex-col items-center gap-2 h-auto py-4 bg-transparent border-white/10 hover:bg-blue-900/20 hover:border-blue-500/50 hover:text-blue-400 transition-all duration-200 group"
             onClick={shareToZalo}
           >
-            <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center group-hover:bg-blue-200 transition-colors">
-              <MessageCircle className="w-5 h-5 text-blue-600" />
+            <div className="w-10 h-10 rounded-full bg-blue-900/20 flex items-center justify-center group-hover:bg-blue-800/30 transition-colors">
+              <MessageCircle className="w-5 h-5 text-blue-500" />
             </div>
-            <span className="text-xs font-medium">Zalo</span>
+            <span className="text-xs font-medium text-gray-300 group-hover:text-blue-400">Zalo</span>
           </Button>
 
           {/* Copy Link */}
           <Button
             variant="outline"
-            className="flex flex-col items-center gap-2 h-auto py-4 hover:bg-green-50 hover:border-green-300 hover:text-green-600 transition-all duration-200 group"
+            className="flex flex-col items-center gap-2 h-auto py-4 bg-transparent border-white/10 hover:bg-green-900/20 hover:border-green-500/50 hover:text-green-400 transition-all duration-200 group"
             onClick={copyToClipboard}
           >
-            <div className="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center group-hover:bg-green-200 transition-colors">
+            <div className="w-10 h-10 rounded-full bg-green-900/20 flex items-center justify-center group-hover:bg-green-800/30 transition-colors">
               {copied ? (
-                <Check className="w-5 h-5 text-green-600" />
+                <Check className="w-5 h-5 text-green-500" />
               ) : (
-                <Copy className="w-5 h-5 text-green-600" />
+                <Copy className="w-5 h-5 text-green-500" />
               )}
             </div>
-            <span className="text-xs font-medium">{copied ? "Đã sao chép" : "Sao chép"}</span>
+            <span className="text-xs font-medium text-gray-300 group-hover:text-green-400">{copied ? "Đã sao chép" : "Sao chép"}</span>
           </Button>
         </div>
 
         {/* URL display */}
-        <div className="mt-4 p-3 bg-gray-50 rounded-lg">
+        <div className="mt-4 p-3 bg-white/5 rounded-lg border border-white/10">
           <p className="text-xs text-gray-500 mb-1">Đường dẫn chia sẻ:</p>
-          <p className="text-sm text-gray-700 truncate">{shareUrl}</p>
+          <p className="text-sm text-gray-300 truncate font-mono">{shareUrl}</p>
         </div>
       </DialogContent>
     </Dialog>

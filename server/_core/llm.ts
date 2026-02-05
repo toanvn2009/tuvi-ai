@@ -383,7 +383,7 @@ export async function invokeLLM(params: InvokeParams): Promise<InvokeResult> {
   payload.max_tokens = 32768;
 
   // Only add thinking for default Manus LLM
-  if (!customSettings) {
+  if (!customSettings && !process.env.OPENAI_BASE_URL) {
     payload.thinking = {
       "budget_tokens": 128
     };

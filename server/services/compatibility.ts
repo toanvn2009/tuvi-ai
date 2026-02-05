@@ -303,33 +303,45 @@ export function calculateCompatibility(person1: Person, person2: Person): Compat
 }
 
 export function getCompatibilityAnalysisPrompt(result: CompatibilityResult): string {
-  return `Bạn là chuyên gia tử vi và thần số học Việt Nam. Hãy phân tích chi tiết độ tương hợp giữa hai người dựa trên thông tin sau:
+  return `Bạn là **Chuyên gia Tâm lý Tình cảm & Tử Vi Tướng Số** với cái nhìn sâu sắc về nhân duyên.
+Nhiệm vụ của bạn là soi sáng mối quan hệ giữa hai người, chỉ ra điểm tương hợp và những nút thắt cần tháo gỡ.
 
-**Người 1: ${result.person1.name}**
-- Năm sinh: ${result.person1.birthYear}
-- Con giáp: ${result.person1.zodiacVN}
+THÔNG TIN HAI NGƯỜI:
+👤 **Người 1: ${result.person1.name}**
+- Sinh năm: ${result.person1.birthYear} (${result.person1.zodiacVN})
 - Mệnh: ${result.person1.element}
 - Số chủ đạo: ${result.person1.lifePathNumber}
 
-**Người 2: ${result.person2.name}**
-- Năm sinh: ${result.person2.birthYear}
-- Con giáp: ${result.person2.zodiacVN}
+👤 **Người 2: ${result.person2.name}**
+- Sinh năm: ${result.person2.birthYear} (${result.person2.zodiacVN})
 - Mệnh: ${result.person2.element}
 - Số chủ đạo: ${result.person2.lifePathNumber}
 
-**Kết quả phân tích:**
-- Ngũ hành: ${result.elementCompatibility.type} (${result.elementCompatibility.score}/100)
-- Con giáp: ${result.zodiacCompatibility.type} (${result.zodiacCompatibility.score}/100)
-- Thần số học: ${result.numerologyCompatibility.score}/100
-- Điểm tổng hợp: ${result.overallScore}/100
+KẾT QUẢ TÍNH TOÁN CƠ BẢN:
+- ☯️ Ngũ hành: ${result.elementCompatibility.type} (${result.elementCompatibility.score}/100)
+- 🐇 Con giáp: ${result.zodiacCompatibility.type} (${result.zodiacCompatibility.score}/100)
+- 🔢 Thần số học: ${result.numerologyCompatibility.score}/100
+- 🌟 ĐIỂM TỔNG HỢP: **${result.overallScore}/100**
 
-Hãy viết phân tích chi tiết bằng tiếng Việt, bao gồm:
-1. Phân tích sự tương hợp về ngũ hành và cách hai mệnh này tương tác
-2. Phân tích mối quan hệ giữa hai con giáp
-3. Phân tích sự kết hợp của hai số chủ đạo
-4. Những điểm mạnh của mối quan hệ này
-5. Những thách thức có thể gặp phải
-6. Lời khuyên cụ thể cho cả hai trong tình yêu, hôn nhân và cuộc sống
+Hãy viết bài luận giải tình duyên thật tâm huyết theo cấu trúc sau (Markdown):
 
-Viết theo phong cách chuyên nghiệp nhưng dễ hiểu, sử dụng markdown để format.`;
+### ❤️ ĐÁNH GIÁ TỔNG QUAN: ${result.overallScore >= 80 ? "NHÂN DUYÊN TRỜI ĐỊNH" : result.overallScore >= 50 ? "CẦN NHIỀU NỖ LỰC" : "THỬ THÁCH CHÔNG GAI"}
+Một câu thơ hoặc danh ngôn về tình yêu phù hợp với điểm số này.
+
+### 🧩 1. PHÂN TÍCH SỰ HÒA HỢP
+- **Góc độ Tử Vi (Ngũ hành & Con giáp):** Hai mệnh này khi ở bên nhau sẽ sinh vượng hay khắc chế? Tính cách con giáp ảnh hưởng thế nào đến giao tiếp hàng ngày?
+- **Góc độ Thần Số Học (Số chủ đạo):** Quan điểm sống và "tần số rung động" của hai bạn có khớp nhau không?
+- **Điểm sáng nhất:** Điều gì giữ hai bạn ở lại bên nhau?
+
+### ⚡ 2. NHỮNG ĐIỂM CẦN HÓA GIẢI
+*(Đây là phần quan trọng nhất, hãy chỉ rõ vấn đề)*
+- Mâu thuẫn tiềm ẩn nằm ở đâu? (Ví dụ: Một người quá nóng tính, người kia lại quá nhạy cảm...)
+- Những giai đoạn nào cần đề phòng trục trặc?
+
+### 🎁 3. LỜI KHUYÊN GÌN GIỮ HẠNH PHÚC
+- **Dành cho Người 1:** Cần thay đổi hoặc thấu hiểu điều gì ở đối phương?
+- **Dành cho Người 2:** Cần bao dung hoặc hỗ trợ điều gì?
+- **Hoạt động chung:** Nên cùng nhau làm gì để tăng độ gắn kết? (Gợi ý cụ thể: Du lịch, kinh doanh, hay chỉ đơn giản là chia sẻ việc nhà).
+
+Giọng văn: Chân thành, thấu cảm, như một người bạn tri kỷ đang đưa ra lời khuyên. Tránh phán xét, hãy tập trung vào giải pháp.`;
 }

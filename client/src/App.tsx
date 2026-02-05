@@ -13,6 +13,8 @@ import Tet from "./pages/Tet";
 import History from "./pages/History";
 import Admin from "./pages/Admin";
 import Compatibility from "./pages/Compatibility";
+import Rituals from "./pages/Rituals";
+import TeamCompatibility from "./pages/TeamCompatibility";
 
 function Router() {
   return (
@@ -26,6 +28,8 @@ function Router() {
       <Route path="/history" component={History} />
       <Route path="/admin" component={Admin} />
       <Route path="/compatibility" component={Compatibility} />
+      <Route path="/rituals" component={Rituals} />
+      <Route path="/team" component={TeamCompatibility} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>
@@ -35,7 +39,7 @@ function Router() {
 function App() {
   return (
     <ErrorBoundary>
-      <ThemeProvider defaultTheme="light">
+      <ThemeProvider defaultTheme="dark">
         <TooltipProvider>
           <Toaster />
           <Router />

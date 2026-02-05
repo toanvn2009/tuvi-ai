@@ -1,3 +1,4 @@
+
 import React, { useState, useRef } from "react";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { trpc } from "@/lib/trpc";
@@ -155,8 +156,8 @@ export default function TuVi() {
     if (!chartRef.current) return;
     try {
       const canvas = await html2canvas(chartRef.current, {
-        scale: 2,
-        backgroundColor: '#ffffff',
+        scale: 3, // High quality export (retina)
+        backgroundColor: '#0f172a', // Dark background for image
         useCORS: true,
         logging: false
       });
@@ -190,11 +191,8 @@ export default function TuVi() {
     <Layout>
       <div className="relative min-h-[calc(100vh-64px)] pb-20">
         {/* Background Decorative Elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-          <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-purple-200/20 rounded-full blur-[100px] -translate-x-1/2 -translate-y-1/2 mix-blend-multiply" />
-          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-amber-200/20 rounded-full blur-[100px] translate-x-1/2 translate-y-1/2 mix-blend-multiply" />
-        </div>
-
+        {/* Using CSS sparkles from index.css instead of large blobs for cleaner look */}
+        
         <div className="container pt-8 md:pt-12">
           <AnimatePresence mode="wait">
             {!showResult ? (
@@ -212,30 +210,30 @@ export default function TuVi() {
                     initial={{ scale: 0.9, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ delay: 0.1, duration: 0.5 }}
-                    className="inline-flex items-center gap-2 px-6 py-2 bg-gradient-to-r from-purple-100 to-amber-100 border border-white/50 rounded-full text-purple-800 text-sm font-medium mb-6 shadow-sm backdrop-blur-sm"
+                    className="inline-flex items-center gap-2 px-6 py-2 bg-white/5 border border-white/10 rounded-full text-purple-300 text-sm font-medium mb-6 shadow-sm backdrop-blur-sm"
                   >
-                    <Star className="w-4 h-4 fill-amber-500 text-amber-500" />
-                    <span>Thuật toán Tử Vi Đẩu Số & AI</span>
-                    <Sparkles className="w-4 h-4 text-purple-600" />
+                    <Star className="w-4 h-4 fill-amber-500 text-amber-500 animate-pulse" />
+                    <span className="text-gray-200">Thuật toán Tử Vi Đẩu Số & AI Master</span>
+                    <Sparkles className="w-4 h-4 text-purple-400" />
                   </motion.div>
 
-                  <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-800 via-indigo-700 to-purple-800 bg-clip-text text-transparent mb-4 leading-tight">
+                  <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent mb-4 leading-tight drop-shadow-sm font-serif">
                     Khám Phá Vận Mệnh
                   </h1>
-                  <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                  <p className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed">
                     Kết hợp tinh hoa tử vi truyền thống và trí tuệ nhân tạo để giải mã chi tiết cuộc đời bạn.
                   </p>
                 </div>
 
                 {/* Form Card */}
-                <div className="bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/50 p-6 md:p-10 relative overflow-hidden group">
+                <div className="glass-card bg-[#0f172a]/60 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/10 p-6 md:p-10 relative overflow-hidden group">
                   <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 via-amber-500 to-purple-500 opacity-50" />
 
                   <form onSubmit={handleSubmit} className="space-y-8 relative z-10">
                     {/* Họ tên */}
                     <div className="space-y-3">
-                      <Label htmlFor="fullName" className="text-base font-semibold text-gray-800 flex items-center gap-2">
-                        <User className="w-4 h-4 text-purple-500" />
+                      <Label htmlFor="fullName" className="text-base font-semibold text-gray-200 flex items-center gap-2">
+                        <User className="w-4 h-4 text-purple-400" />
                         Họ và tên
                       </Label>
                       <div className="relative group/input">
@@ -244,7 +242,7 @@ export default function TuVi() {
                           placeholder="Ví dụ: Nguyễn Văn A"
                           value={formData.fullName}
                           onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                          className="h-14 pl-4 bg-gray-50/50 border-gray-200 focus:bg-white focus:ring-2 focus:ring-purple-200 transition-all rounded-xl text-lg shadow-sm group-hover/input:border-purple-300"
+                          className="h-14 pl-4 bg-white/5 border-white/10 text-gray-100 placeholder:text-gray-500 focus:bg-white/10 focus:ring-2 focus:ring-purple-500/50 transition-all rounded-xl text-lg shadow-sm group-hover/input:border-purple-500/30"
                         />
                       </div>
                     </div>
@@ -252,29 +250,29 @@ export default function TuVi() {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                       {/* Giới tính */}
                       <div className="space-y-3">
-                        <Label className="text-base font-semibold text-gray-800 flex items-center gap-2">
-                          <User className="w-4 h-4 text-purple-500" />
+                        <Label className="text-base font-semibold text-gray-200 flex items-center gap-2">
+                          <User className="w-4 h-4 text-purple-400" />
                           Giới tính
                         </Label>
                         <div className="grid grid-cols-2 gap-4">
                           <div
                             onClick={() => setFormData({ ...formData, gender: 'male' })}
-                            className={`cursor-pointer rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-all duration-200 border-2 ${formData.gender === 'male'
-                              ? 'bg-blue-50/80 border-blue-500 text-blue-700 shadow-md transform scale-[1.02]'
-                              : 'bg-gray-50 border-transparent hover:bg-gray-100 hover:border-gray-200'
+                            className={`cursor-pointer rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-all duration-200 border ${formData.gender === 'male'
+                              ? 'bg-blue-900/40 border-blue-500 text-blue-300 shadow-[0_0_15px_rgba(59,130,246,0.2)] transform scale-[1.02]'
+                              : 'bg-white/5 border-transparent hover:bg-white/10 hover:border-white/20 text-gray-400'
                               }`}
                           >
-                            <User className="w-6 h-6 text-blue-600" />
+                            <User className="w-6 h-6" />
                             <span className="font-medium">Nam</span>
                           </div>
                           <div
                             onClick={() => setFormData({ ...formData, gender: 'female' })}
-                            className={`cursor-pointer rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-all duration-200 border-2 ${formData.gender === 'female'
-                              ? 'bg-pink-50/80 border-pink-500 text-pink-700 shadow-md transform scale-[1.02]'
-                              : 'bg-gray-50 border-transparent hover:bg-gray-100 hover:border-gray-200'
+                            className={`cursor-pointer rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-all duration-200 border ${formData.gender === 'female'
+                              ? 'bg-pink-900/40 border-pink-500 text-pink-300 shadow-[0_0_15px_rgba(236,72,153,0.2)] transform scale-[1.02]'
+                              : 'bg-white/5 border-transparent hover:bg-white/10 hover:border-white/20 text-gray-400'
                               }`}
                           >
-                            <User className="w-6 h-6 text-pink-600" />
+                            <User className="w-6 h-6" />
                             <span className="font-medium">Nữ</span>
                           </div>
                         </div>
@@ -282,16 +280,16 @@ export default function TuVi() {
 
                       {/* Loại lịch */}
                       <div className="space-y-3">
-                        <Label className="text-base font-semibold text-gray-800 flex items-center gap-2">
-                          <Calendar className="w-4 h-4 text-purple-500" />
+                        <Label className="text-base font-semibold text-gray-200 flex items-center gap-2">
+                          <Calendar className="w-4 h-4 text-purple-400" />
                           Loại lịch
                         </Label>
                         <div className="grid grid-cols-2 gap-4">
                           <div
                             onClick={() => setFormData({ ...formData, calendarType: 'solar' })}
-                            className={`cursor-pointer rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-all duration-200 border-2 ${formData.calendarType === 'solar'
-                              ? 'bg-amber-50/80 border-amber-500 text-amber-700 shadow-md transform scale-[1.02]'
-                              : 'bg-gray-50 border-transparent hover:bg-gray-100 hover:border-gray-200'
+                            className={`cursor-pointer rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-all duration-200 border ${formData.calendarType === 'solar'
+                              ? 'bg-amber-900/40 border-amber-500 text-amber-300 shadow-[0_0_15px_rgba(245,158,11,0.2)] transform scale-[1.02]'
+                              : 'bg-white/5 border-transparent hover:bg-white/10 hover:border-white/20 text-gray-400'
                               }`}
                           >
                             <Sun className="w-6 h-6" />
@@ -299,9 +297,9 @@ export default function TuVi() {
                           </div>
                           <div
                             onClick={() => setFormData({ ...formData, calendarType: 'lunar' })}
-                            className={`cursor-pointer rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-all duration-200 border-2 ${formData.calendarType === 'lunar'
-                              ? 'bg-indigo-50/80 border-indigo-500 text-indigo-700 shadow-md transform scale-[1.02]'
-                              : 'bg-gray-50 border-transparent hover:bg-gray-100 hover:border-gray-200'
+                            className={`cursor-pointer rounded-xl p-4 flex flex-col items-center justify-center gap-2 transition-all duration-200 border ${formData.calendarType === 'lunar'
+                              ? 'bg-indigo-900/40 border-indigo-500 text-indigo-300 shadow-[0_0_15px_rgba(99,102,241,0.2)] transform scale-[1.02]'
+                              : 'bg-white/5 border-transparent hover:bg-white/10 hover:border-white/20 text-gray-400'
                               }`}
                           >
                             <Moon className="w-6 h-6" />
@@ -312,22 +310,29 @@ export default function TuVi() {
                     </div>
 
                     {/* Ngày tháng năm sinh & Giờ sinh */}
-                    <BirthDateSelector
-                      birthDay={formData.birthDay}
-                      birthMonth={formData.birthMonth}
-                      birthYear={formData.birthYear}
-                      birthHour={formData.birthHour}
-                      onBirthDayChange={(day) => setFormData({ ...formData, birthDay: day })}
-                      onBirthMonthChange={(month) => setFormData({ ...formData, birthMonth: month })}
-                      onBirthYearChange={(year) => setFormData({ ...formData, birthYear: year })}
-                      onBirthHourChange={(hour) => setFormData({ ...formData, birthHour: hour })}
-                      showHour
-                    />
+                    {/* Check if BirthDateSelector supports dark theme. If it uses standard inputs/selects, it might need updating or it inherits 'dark' class styles provided by Tailwind.
+                        Assuming global Input/Select styles handle dark mode via class 'dark' or we need to pass overrides?
+                        The current inputs above use explicit colors.
+                        If BirthDateSelector uses ShadCN components, they should adapt to 'dark' class on body.
+                     */}
+                    <div className="text-gray-200">
+                        <BirthDateSelector
+                            birthDay={formData.birthDay}
+                            birthMonth={formData.birthMonth}
+                            birthYear={formData.birthYear}
+                            birthHour={formData.birthHour}
+                            onBirthDayChange={(day) => setFormData({ ...formData, birthDay: day })}
+                            onBirthMonthChange={(month) => setFormData({ ...formData, birthMonth: month })}
+                            onBirthYearChange={(year) => setFormData({ ...formData, birthYear: year })}
+                            onBirthHourChange={(hour) => setFormData({ ...formData, birthHour: hour })}
+                            showHour
+                        />
+                    </div>
 
                     <div className="pt-4">
                       <Button
                         type="submit"
-                        className="w-full h-16 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-lg font-bold rounded-2xl shadow-xl shadow-purple-200 transition-all hover:scale-[1.01] active:scale-[0.99]"
+                        className="w-full h-16 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white text-lg font-bold rounded-2xl shadow-[0_0_20px_rgba(147,51,234,0.3)] transition-all hover:scale-[1.01] active:scale-[0.99] border border-white/10"
                         disabled={generateChartMutation.isPending}
                       >
                         {generateChartMutation.isPending ? (
@@ -356,11 +361,11 @@ export default function TuVi() {
                 className="space-y-8"
               >
                 {/* Header Actions */}
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/50 backdrop-blur-md p-4 rounded-2xl border border-white/50 shadow-sm">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 glass-card bg-white/5 backdrop-blur-md p-4 rounded-2xl border border-white/10 shadow-sm">
                   <Button
                     variant="ghost"
                     onClick={handleBack}
-                    className="text-gray-600 hover:text-gray-900 hover:bg-white/50"
+                    className="text-gray-400 hover:text-white hover:bg-white/10"
                   >
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Quay lại nhập liệu
@@ -370,7 +375,7 @@ export default function TuVi() {
                     <Button
                       onClick={handleDownloadImage}
                       variant="outline"
-                      className="bg-white hover:bg-purple-50 text-purple-700 border-purple-200"
+                      className="bg-transparent hover:bg-white/10 text-purple-300 border-purple-500/30"
                     >
                       <ImageIcon className="w-4 h-4 mr-2" />
                       Tải ảnh
@@ -379,7 +384,7 @@ export default function TuVi() {
                       onClick={handleExportPDF}
                       disabled={isExporting}
                       variant="outline"
-                      className="bg-white hover:bg-purple-50 text-purple-700 border-purple-200"
+                      className="bg-transparent hover:bg-white/10 text-purple-300 border-purple-500/30"
                     >
                       {isExporting ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Download className="w-4 h-4 mr-2" />}
                       Xuất PDF
@@ -400,11 +405,11 @@ export default function TuVi() {
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.2 }}
-                      className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100"
+                      className="glass-card bg-[#0f172a]/95 rounded-3xl shadow-xl overflow-hidden border border-white/10"
                     >
-                      <div className="bg-purple-50/50 p-4 border-b border-purple-100 flex items-center gap-2">
+                      <div className="bg-white/5 p-4 border-b border-white/10 flex items-center gap-2">
                         <Star className="w-5 h-5 text-amber-500 fill-amber-500" />
-                        <h3 className="text-lg font-bold text-gray-800">Thiên Bàn & Địa Bàn</h3>
+                        <h3 className="text-lg font-bold text-gray-100">Thiên Bàn & Địa Bàn</h3>
                       </div>
                       <div className="p-2 md:p-6 overflow-x-auto" ref={chartRef}>
                         <TuViChartProfessional
@@ -414,38 +419,43 @@ export default function TuVi() {
                       </div>
                     </motion.div>
 
-                    {/* AI Analysis Panel with Tabs */}
+                    {/* AI Analysis Panel with Tabs - Need to check if TuviAnalysisPanel supports dark mode. 
+                        If not, might need a wrapper or CSS overrides.
+                        Assuming it inherits styles or uses default colors.
+                    */}
                     <motion.div
                       initial={{ opacity: 0, y: 20 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.3 }}
                     >
                       {result?.aiAnalysis ? (
-                        <TuviAnalysisPanel
-                          palaces={result.chart.palaces}
-                          overviewAnalysis={result.aiAnalysis}
-                          input={{
-                            fullName: formData.fullName,
-                            birthDate: `${formData.birthYear}-${String(formData.birthMonth).padStart(2, '0')}-${String(formData.birthDay).padStart(2, '0')}`,
-                            birthHour: formData.birthHour,
-                            gender: formData.gender,
-                            calendarType: formData.calendarType
-                          }}
-                        />
+                        <div className="glass-card rounded-3xl border border-white/10 overflow-hidden text-gray-200">
+                             <TuviAnalysisPanel
+                                palaces={result.chart.palaces}
+                                overviewAnalysis={result.aiAnalysis}
+                                input={{
+                                    fullName: formData.fullName,
+                                    birthDate: `${formData.birthYear}-${String(formData.birthMonth).padStart(2, '0')}-${String(formData.birthDay).padStart(2, '0')}`,
+                                    birthHour: formData.birthHour,
+                                    gender: formData.gender,
+                                    calendarType: formData.calendarType
+                                }}
+                            />
+                        </div>
                       ) : (
-                        <div className="bg-white rounded-3xl shadow-xl p-6 md:p-8 border border-gray-100 h-full flex flex-col items-center justify-center text-center space-y-4">
-                          <div className="w-16 h-16 rounded-full bg-purple-50 flex items-center justify-center mb-2">
-                            <Sparkles className="w-8 h-8 text-purple-600" />
+                        <div className="glass-card bg-white/5 rounded-3xl shadow-xl p-6 md:p-8 border border-white/10 h-full flex flex-col items-center justify-center text-center space-y-4">
+                          <div className="w-16 h-16 rounded-full bg-purple-500/20 flex items-center justify-center mb-2 animate-pulse">
+                            <Sparkles className="w-8 h-8 text-purple-400" />
                           </div>
-                          <h3 className="text-xl font-bold text-gray-800">Luận Giải Tổng Quan Bằng AI</h3>
-                          <p className="text-gray-500 max-w-md">
+                          <h3 className="text-xl font-bold text-gray-100">Luận Giải Tổng Quan Bằng AI</h3>
+                          <p className="text-gray-400 max-w-md">
                             Sử dụng công nghệ AI tiên tiến để phân tích tổng quan lá số, vận hạn và đưa ra lời khuyên cốt lõi.<br />
-                            <span className="text-sm text-purple-600 font-medium">Tip: Sau khi phân tích, bạn có thể chuyển tab để xem chi tiết từng cung!</span>
+                            <span className="text-sm text-purple-400 font-medium">Tip: Sau khi phân tích, bạn có thể chuyển tab để xem chi tiết từng cung!</span>
                           </p>
                           <Button
                             onClick={handleAnalyzeAI}
                             disabled={analyzeMutation.isPending}
-                            className="mt-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white shadow-lg hover:shadow-purple-500/30 transition-all hover:scale-105"
+                            className="mt-4 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white shadow-[0_0_15px_rgba(147,51,234,0.3)] transition-all hover:scale-105 border border-white/10"
                             size="lg"
                           >
                             {analyzeMutation.isPending ? (
@@ -484,10 +494,10 @@ export default function TuVi() {
             <Button
               onClick={scrollToTop}
               size="lg"
-              className="h-14 w-14 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 shadow-2xl shadow-purple-500/50 transition-all hover:scale-110 active:scale-95"
+              className="h-14 w-14 rounded-full bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 shadow-[0_0_15px_rgba(147,51,234,0.5)] transition-all hover:scale-110 active:scale-95 border border-white/20"
               title="Quay lên đầu trang"
             >
-              <ArrowUp className="w-6 h-6" />
+              <ArrowUp className="w-6 h-6 text-white" />
             </Button>
           </motion.div>
         )}

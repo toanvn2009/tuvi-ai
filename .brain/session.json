@@ -1,0 +1,88 @@
+{
+  "updated_at": "2026-02-05T21:28:00Z",
+  "working_on": {
+    "feature": "Admin & UI Polish",
+    "task": "Dọn dẹp code (refactor) sau khi fix admin login",
+    "status": "ready_for_refactor",
+    "files": [
+      "server/_core/sdk.ts",
+      "server/_core/context.ts",
+      "client/src/pages/Tet.tsx"
+    ],
+    "blockers": [],
+    "notes": "Đã fix xong admin login và lỗi hiển thị Tư Vấn Toàn Diện. Tiếp theo là refactor routers.ts."
+  },
+  "pending_tasks": [],
+  "recent_changes": [
+    {
+      "timestamp": "2026-02-05T21:00:00Z",
+      "type": "feature",
+      "description": "Thêm FortuneTicker hiển thị vận khí real-time",
+      "files": ["client/src/components/FortuneTicker.tsx", "client/src/components/Layout.tsx"]
+    },
+    {
+      "timestamp": "2026-02-05T21:10:00Z",
+      "type": "feature",
+      "description": "Thêm ChatWidget AI Phong Thủy",
+      "files": ["client/src/components/ChatWidget.tsx", "server/_core/systemRouter.ts"]
+    },
+    {
+      "timestamp": "2026-02-05T21:15:00Z",
+      "type": "feature",
+      "description": "Thêm trang Văn Khấn với 6 bài văn khấn",
+      "files": ["client/src/pages/Rituals.tsx", "shared/data/rituals.json"]
+    },
+    {
+      "timestamp": "2026-02-05T21:20:00Z",
+      "type": "enhancement",
+      "description": "Tăng chất lượng export ảnh lên 3x",
+      "files": ["client/src/pages/TuVi.tsx"]
+    },
+    {
+      "timestamp": "2026-02-05T21:25:00Z",
+      "type": "feature",
+      "description": "Thêm Team Compatibility - ma trận tương hợp nhóm",
+      "files": ["client/src/pages/TeamCompatibility.tsx"]
+    },
+    {
+      "timestamp": "2026-02-05T21:45:00Z",
+      "type": "ui",
+      "description": "Căn chỉnh flexbox cho headers trong trang Tết (Màu may mắn, Lì xì, Tư vấn)",
+      "files": ["client/src/pages/Tet.tsx"]
+    },
+    {
+      "timestamp": "2026-02-05T21:55:00Z",
+      "type": "bugfix",
+      "description": "Sửa lỗi admin login bằng cách nới lỏng session validation và làm giàu context",
+      "files": ["server/_core/sdk.ts", "server/_core/context.ts"]
+    },
+    {
+      "timestamp": "2026-02-05T22:05:00Z",
+      "type": "bugfix",
+      "description": "Sửa lỗi 'Tư vấn toàn diện' không ra kết quả do sai tên trường dữ liệu",
+      "files": ["client/src/pages/Tet.tsx"]
+    }
+  ],
+  "errors_encountered": [
+    {
+      "error": "Admin login blank page / Invalid session",
+      "solution": "Nới lỏng validation trong sdk.ts (chỉ yêu cầu openId) và đảm bảo context lấy thông tin user từ DB",
+      "resolved": true
+    },
+    {
+      "error": "Tư vấn toàn diện ko ra kết quả",
+      "solution": "Đổi result.fullAdvice thành result.aiAdvice trong Tet.tsx để khớp với payload server",
+      "resolved": true
+    }
+  ],
+  "decisions_made": [
+    {
+      "decision": "Sử dụng ma trận grid cho Team Compatibility",
+      "reason": "Trực quan hơn cho việc so sánh nhiều người"
+    },
+    {
+      "decision": "Giới hạn 3-6 thành viên",
+      "reason": "Tránh quá tải UI và API calls"
+    }
+  ]
+}

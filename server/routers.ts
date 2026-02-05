@@ -155,7 +155,7 @@ export const appRouter = router({
       .mutation(async ({ input, ctx }) => {
         // Tài khoản admin cố định
         const ADMIN_USERNAME = "admin";
-        const ADMIN_PASSWORD = "tuvi@2026";
+        const ADMIN_PASSWORD = "admin";
 
         if (input.username !== ADMIN_USERNAME || input.password !== ADMIN_PASSWORD) {
           throw new Error("Tên đăng nhập hoặc mật khẩu không đúng");
@@ -251,25 +251,27 @@ export const appRouter = router({
         // Step 3: Save to cache
         if (db) {
           try {
-            const [insertResult] = await db.insert(tuviCache).values({
+            const insertResult = db.insert(tuviCache).values({
               birthDate: input.birthDate,
               birthHour: input.birthHour,
               gender: input.gender,
               calendarType: input.calendarType,
               year: birthYear,
-              chartData: chart,
+              chartData: chart as any,
               aiAnalysis: analysis,
-            });
+            }).run();
             console.log(`💾 Cached analysis for ${input.birthDate} ${input.birthHour} (year: ${birthYear})`);
 
             // Step 3.5: Trigger background palace analysis (fire-and-forget)
-            // Get the inserted cache ID
-            const cacheId = insertResult.insertId;
+            // Get the inserted cache ID using lastInsertRowid for better-sqlite3
+            const cacheId = Number(insertResult.lastInsertRowid);
 
             // Start background job (don't await - let it run in background)
-            preAnalyzeAllPalaces(input, chart, cacheId).catch(error => {
-              console.error("Background palace analysis failed:", error);
-            });
+            if (cacheId) {
+              preAnalyzeAllPalaces(input, chart, cacheId).catch(error => {
+                console.error("Background palace analysis failed:", error);
+              });
+            }
 
           } catch (error) {
             console.error("Failed to cache analysis:", error);
@@ -372,7 +374,7 @@ export const appRouter = router({
               await db
                 .update(tuviCache)
                 .set({
-                  palaceAnalyses: currentAnalyses,
+                  palaceAnalyses: currentAnalyses as any,
                   updatedAt: new Date()
                 })
                 .where(eq(tuviCache.id, cached[0].id));
@@ -500,7 +502,7 @@ export const appRouter = router({
         // Step 4: Save to cache
         if (db) {
           try {
-            await db.insert(numerologyCache).values({
+            db.insert(numerologyCache).values({
               fullName: input.fullName,
               birthDate: input.birthDate,
               year: birthYear,
@@ -509,9 +511,9 @@ export const appRouter = router({
               personalityNumber: result.personalityNumber,
               destinyNumber: result.destinyNumber,
               birthDayNumber: result.birthDayNumber,
-              birthChart: result.birthChart,
+              birthChart: result.birthChart as any,
               aiAnalysis: analysis,
-            });
+            }).run();
             console.log(`💾 Cached numerology analysis for ${input.fullName} ${input.birthDate}`);
           } catch (error) {
             console.error("Failed to cache numerology analysis:", error);
@@ -520,18 +522,22 @@ export const appRouter = router({
 
         // Step 5: Save to history if user is logged in
         if (ctx.user && db) {
-          await db.insert(numerologyReadings).values({
-            userId: ctx.user.id,
-            fullName: input.fullName,
-            birthDate: input.birthDate,
-            lifePathNumber: result.lifePathNumber,
-            soulNumber: result.soulNumber,
-            personalityNumber: result.personalityNumber,
-            destinyNumber: result.destinyNumber,
-            birthDayNumber: result.birthDayNumber,
-            birthChart: result.birthChart,
-            aiAnalysis: analysis,
-          });
+          try {
+            db.insert(numerologyReadings).values({
+              userId: ctx.user.id,
+              fullName: input.fullName,
+              birthDate: input.birthDate,
+              lifePathNumber: result.lifePathNumber,
+              soulNumber: result.soulNumber,
+              personalityNumber: result.personalityNumber,
+              destinyNumber: result.destinyNumber,
+              birthDayNumber: result.birthDayNumber,
+              birthChart: result.birthChart as any,
+              aiAnalysis: analysis,
+            }).run();
+          } catch (error) {
+            console.error("Failed to save numerology history:", error);
+          }
         }
 
         return { result, analysis, meanings: NUMBER_MEANINGS, cached: false };
@@ -634,16 +640,17 @@ export const appRouter = router({
           ],
         });
 
-        const forecast = response.choices[0]?.message?.content || "";
+        const rawForecast = response.choices[0]?.message?.content || "";
+        const forecast = typeof rawForecast === "string" ? rawForecast : JSON.stringify(rawForecast);
 
         // Step 2: Save to cache
         if (db) {
           try {
-            await db.insert(zodiacCache).values({
+            db.insert(zodiacCache).values({
               animal: input.animal,
               year: input.year,
               content: forecast,
-            });
+            }).run();
             console.log(`💾 Cached zodiac forecast for ${input.animal} ${input.year}`);
           } catch (error) {
             console.error("Failed to cache zodiac forecast:", error);
@@ -707,7 +714,7 @@ export const appRouter = router({
             .from(tetCache)
             .where(
               and(
-                eq(tetCache.functionName, 'xongDat'),
+                eq(tetCache.functionName, 'xongDat_v2'),
                 eq(tetCache.birthYear, input.ownerBirthYear),
                 eq(tetCache.year, CURRENT_YEAR)
               )
@@ -736,12 +743,15 @@ export const appRouter = router({
           ],
         });
 
-        const aiAdvice = response.choices[0]?.message?.content || "";
+        const rawAiAdvice = response.choices[0]?.message?.content || "";
+        const aiAdvice = typeof rawAiAdvice === "string" ? rawAiAdvice : JSON.stringify(rawAiAdvice);
         const ownerZodiac = ZODIAC_VIETNAMESE[getZodiacFromYear(input.ownerBirthYear)];
         const ownerElement = getElementFromYear(input.ownerBirthYear);
 
         const fullResult = {
           ...result,
+          suitableZodiacs: result.suitableZodiacs.map(z => ZODIAC_VIETNAMESE[z]),
+          avoidZodiacs: result.avoidZodiacs.map(z => ZODIAC_VIETNAMESE[z]),
           ownerZodiac,
           ownerElement,
         };
@@ -749,13 +759,13 @@ export const appRouter = router({
         // Step 2: Save to cache
         if (db) {
           try {
-            await db.insert(tetCache).values({
-              functionName: 'xongDat',
+            db.insert(tetCache).values({
+              functionName: 'xongDat_v2',
               birthYear: input.ownerBirthYear,
               year: CURRENT_YEAR,
-              data: fullResult,
+              data: fullResult as any,
               aiAdvice: aiAdvice,
-            });
+            }).run();
             console.log(`💾 Cached xongDat for ${input.ownerBirthYear}`);
           } catch (error) {
             console.error("Failed to cache xongDat:", error);
@@ -805,7 +815,7 @@ export const appRouter = router({
             .from(tetCache)
             .where(
               and(
-                eq(tetCache.functionName, 'fullAdvice'),
+                eq(tetCache.functionName, 'fullAdvice_v2'),
                 eq(tetCache.birthYear, input.birthYear),
                 eq(tetCache.year, CURRENT_YEAR)
               )
@@ -835,7 +845,8 @@ export const appRouter = router({
           ],
         });
 
-        const aiAdvice = response.choices[0]?.message?.content || "";
+        const rawAiAdvice = response.choices[0]?.message?.content || "";
+        const aiAdvice = typeof rawAiAdvice === "string" ? rawAiAdvice : JSON.stringify(rawAiAdvice);
         const zodiac = ZODIAC_VIETNAMESE[getZodiacFromYear(input.birthYear)];
         const element = getElementFromYear(input.birthYear);
 
@@ -849,13 +860,13 @@ export const appRouter = router({
         // Step 2: Save to cache
         if (db) {
           try {
-            await db.insert(tetCache).values({
-              functionName: 'fullAdvice',
+            db.insert(tetCache).values({
+              functionName: 'fullAdvice_v2',
               birthYear: input.birthYear,
               year: CURRENT_YEAR,
-              data: fullResult,
+              data: fullResult as any,
               aiAdvice: aiAdvice,
-            });
+            }).run();
             console.log(`💾 Cached fullAdvice for ${input.birthYear}`);
           } catch (error) {
             console.error("Failed to cache fullAdvice:", error);

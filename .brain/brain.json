@@ -1,0 +1,144 @@
+{
+  "meta": {
+    "schema_version": "1.1.0",
+    "awf_version": "3.3.0",
+    "updated_at": "2026-02-05T21:28:00Z"
+  },
+  "project": {
+    "name": "Tử Vi AI",
+    "type": "fullstack-web",
+    "status": "active",
+    "description": "Ứng dụng xem tử vi, thần số học và phong thủy AI"
+  },
+  "tech_stack": {
+    "frontend": {
+      "framework": "React 18",
+      "build_tool": "Vite",
+      "styling": "Tailwind CSS",
+      "ui_library": "shadcn/ui",
+      "routing": "wouter",
+      "state": "React Query + TRPC",
+      "animations": "framer-motion"
+    },
+    "backend": {
+      "runtime": "Node.js + tsx",
+      "framework": "Express + tRPC",
+      "llm": "Google Gemini AI"
+    },
+    "database": {
+      "type": "SQLite",
+      "orm": "Drizzle ORM"
+    }
+  },
+  "features": [
+    {
+      "name": "Tử Vi Chart",
+      "status": "completed",
+      "description": "Lập lá số tử vi 12 cung với phân tích AI"
+    },
+    {
+      "name": "Thần Số Học",
+      "status": "completed",
+      "description": "Tính toán số chủ đạo và phân tích ý nghĩa"
+    },
+    {
+      "name": "12 Con Giáp",
+      "status": "completed",
+      "description": "Dự đoán vận trình theo tuổi và năm"
+    },
+    {
+      "name": "Ngày Đẹp",
+      "status": "completed",
+      "description": "Chọn ngày tốt cho các sự kiện quan trọng"
+    },
+    {
+      "name": "Tết 2026",
+      "status": "completed",
+      "description": "Xông đất, màu may mắn, lì xì theo tuổi"
+    },
+    {
+      "name": "Văn Khấn",
+      "status": "completed",
+      "description": "Bài văn khấn chuẩn với cá nhân hóa"
+    },
+    {
+      "name": "Fortune Ticker",
+      "status": "completed",
+      "description": "Hiển thị vận khí real-time theo giờ"
+    },
+    {
+      "name": "Chat Widget",
+      "status": "completed",
+      "description": "AI Phong Thủy tư vấn trực tiếp"
+    },
+    {
+      "name": "Team Compatibility",
+      "status": "completed",
+      "description": "Ma trận tương hợp 3-6 người với điểm hài hòa nhóm"
+    }
+  ],
+  "api_endpoints": [
+    {
+      "path": "/api/tuvi.generateChart",
+      "method": "POST",
+      "explained": "Lập lá số tử vi từ ngày sinh"
+    },
+    {
+      "path": "/api/tuvi.analyzeAI",
+      "method": "POST", 
+      "explained": "Phân tích AI cho lá số tử vi"
+    },
+    {
+      "path": "/api/numerology.calculate",
+      "method": "POST",
+      "explained": "Tính thần số học từ ngày sinh"
+    },
+    {
+      "path": "/api/zodiac.generateChart",
+      "method": "POST",
+      "explained": "Dự đoán 12 con giáp"
+    },
+    {
+      "path": "/api/auspicious.findDates",
+      "method": "POST",
+      "explained": "Tìm ngày đẹp cho sự kiện"
+    },
+    {
+      "path": "/api/tet.xongDat",
+      "method": "POST",
+      "explained": "Gợi ý người xông đất"
+    },
+    {
+      "path": "/api/tet.fullAdvice",
+      "method": "POST",
+      "explained": "Lời khuyên Tết tổng hợp"
+    },
+    {
+      "path": "/api/compatibility.calculate",
+      "method": "POST",
+      "explained": "Tính tương hợp 2 người"
+    },
+    {
+      "path": "/api/system.chat",
+      "method": "POST",
+      "explained": "Chat với AI Phong Thủy"
+    }
+  ],
+  "knowledge_items": {
+    "patterns": [
+      "TRPC mutations với caching trong SQLite",
+      "LLM invocation với retry và cache",
+      "Mystical Dark theme với glassmorphism"
+    ],
+    "gotchas": [
+      "Cần import tất cả lucide-react icons đã sử dụng",
+      "Port 3000 có thể bị busy, fallback sang 3004",
+      "Cache LLM theo version để invalidate khi cần"
+    ],
+    "conventions": [
+      "Tên file component PascalCase",
+      "Tất cả UI text bằng tiếng Việt",
+      "CSS classes dùng Tailwind"
+    ]
+  }
+}

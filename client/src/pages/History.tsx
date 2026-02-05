@@ -8,8 +8,6 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogDescription,
-  DialogFooter,
 } from "@/components/ui/dialog";
 import {
   AlertDialog,
@@ -24,7 +22,7 @@ import {
 import { Link } from "wouter";
 import Layout from "@/components/Layout";
 import { getLoginUrl } from "@/const";
-import { History as HistoryIcon, Star, Hash, Loader2, Calendar, User, Eye, Clock, Download, Trash2 } from "lucide-react";
+import { History as HistoryIcon, Star, Hash, Loader2, Calendar, User, Eye, Clock, Download, Trash2, Sparkles } from "lucide-react";
 import { Streamdown } from "streamdown";
 import { exportTuViToPDF, exportNumerologyToPDF } from "@/lib/pdfExport";
 import { toast } from "sonner";
@@ -85,22 +83,24 @@ function TuviHistory() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="w-12 h-12 animate-spin text-purple-500" />
       </div>
     );
   }
 
   if (!readings || readings.length === 0) {
     return (
-      <div className="result-card text-center py-12 animate-fade-in-up">
-        <Star className="w-12 h-12 mx-auto text-gray-300 mb-4" />
-        <h3 className="font-bold text-lg text-gray-900 mb-2">Chưa có lịch sử</h3>
-        <p className="text-gray-500 mb-4">
-          Bạn chưa xem lá số tử vi nào. Hãy bắt đầu khám phá!
+      <div className="glass-card bg-white/5 border-white/10 text-center py-20 animate-fade-in-up rounded-3xl">
+        <Star className="w-16 h-16 mx-auto text-gray-700 mb-6 opacity-20" />
+        <h3 className="font-black text-2xl text-white mb-3">Chưa có lịch sử</h3>
+        <p className="text-gray-500 mb-10 max-w-sm mx-auto">
+          Hành trình khám phá bản thân bắt đầu từ một bước chân. Hãy gieo quẻ đầu tiên ngay!
         </p>
         <Link href="/tuvi">
-          <Button className="btn-primary">Xem Lá Số Tử Vi</Button>
+          <Button className="h-14 px-8 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold rounded-2xl shadow-xl">
+             Khai Mở Lá Số Tử Vi
+          </Button>
         </Link>
       </div>
     );
@@ -108,150 +108,142 @@ function TuviHistory() {
 
   return (
     <>
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {readings.map((reading: any, index: number) => (
           <div 
             key={reading.id} 
-            className="p-6 bg-white rounded-2xl border border-gray-100 hover:shadow-lg hover:border-purple-200 transition-all duration-300 animate-fade-in-up cursor-pointer group"
-            style={{ animationDelay: `${index * 100}ms` }}
+            className="p-6 glass-card bg-white/5 border-white/10 hover:bg-white/10 hover:border-purple-500/30 transition-all duration-500 animate-fade-in-up cursor-pointer group rounded-2xl relative overflow-hidden"
+            style={{ animationDelay: `${index * 50}ms` }}
             onClick={() => setSelectedReading(reading)}
           >
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-100 to-indigo-100 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                <Star className="w-6 h-6 text-purple-600" />
+            <div className="flex items-start gap-4 relative z-10">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-purple-500/20 to-indigo-500/20 border border-purple-500/30 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg">
+                <Star className="w-7 h-7 text-purple-400" />
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-gray-900 group-hover:text-purple-700 transition-colors">{reading.fullName}</h3>
-                <div className="flex flex-wrap items-center gap-3 text-sm text-gray-500 mt-1">
-                  <span className="flex items-center gap-1">
-                    <Calendar className="w-4 h-4" />
+                <h3 className="font-black text-white text-lg group-hover:text-purple-300 transition-colors truncate">{reading.fullName}</h3>
+                <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500 mt-1 uppercase tracking-widest font-bold">
+                  <span className="flex items-center gap-1.5">
+                    <Calendar className="w-3.5 h-3.5 text-purple-400" />
                     {formatDateVN(reading.birthDate)}
                   </span>
-                  <span className="flex items-center gap-1">
-                    <User className="w-4 h-4" />
+                  <span className="flex items-center gap-1.5">
+                    <User className="w-3.5 h-3.5 text-purple-400" />
                     {reading.gender === "male" ? "Nam" : "Nữ"}
                   </span>
-                  <span className="flex items-center gap-1">
-                    <Clock className="w-4 h-4" />
-                    {reading.birthHour}
-                  </span>
                 </div>
-                <p className="text-xs text-gray-400 mt-2 flex items-center gap-1">
-                  <HistoryIcon className="w-3 h-3" />
-                  {formatDateTimeVN(reading.createdAt)}
-                </p>
+                <div className="flex items-center gap-2 mt-4 text-[10px] text-gray-600 font-bold uppercase tracking-widest">
+                  <Clock className="w-3 h-3" />
+                  Lưu lúc: {formatDateTimeVN(reading.createdAt)}
+                </div>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col gap-2">
                 <Button 
                   variant="ghost" 
-                  size="sm" 
-                  className="opacity-0 group-hover:opacity-100 transition-opacity text-red-500 hover:text-red-700 hover:bg-red-50"
+                  size="icon" 
+                  className="h-8 w-8 text-gray-600 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
                   onClick={(e) => handleDelete(reading.id, e)}
                 >
                   <Trash2 className="w-4 h-4" />
                 </Button>
-                <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Eye className="w-4 h-4 mr-1" />
-                  Xem
-                </Button>
+                <div className="w-8 h-8 flex items-center justify-center text-purple-400 group-hover:translate-x-1 transition-transform">
+                    <Eye className="w-5 h-5" />
+                </div>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Delete Confirmation Dialog */}
       <AlertDialog open={deleteId !== null} onOpenChange={() => setDeleteId(null)}>
-        <AlertDialogContent>
+        <AlertDialogContent className="glass-card bg-[#0f172a] border-white/10 rounded-3xl">
           <AlertDialogHeader>
-            <AlertDialogTitle>Xác nhận xóa</AlertDialogTitle>
-            <AlertDialogDescription>
-              Bạn có chắc chắn muốn xóa kết quả tra cứu này? Hành động này không thể hoàn tác.
+            <AlertDialogTitle className="text-white text-xl font-bold">Xác nhận xóa</AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-400">
+              Dữ liệu tra cứu này sẽ biến mất vĩnh viễn khỏi dòng thời gian của bạn. Bạn chắc chứ?
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Hủy</AlertDialogCancel>
+          <AlertDialogFooter className="mt-6 gap-3">
+            <AlertDialogCancel className="bg-white/5 border-white/10 text-white rounded-xl hover:bg-white/10">Hủy</AlertDialogCancel>
             <AlertDialogAction 
               onClick={confirmDelete}
-              className="bg-red-600 hover:bg-red-700"
+              className="bg-red-600 hover:bg-red-500 text-white rounded-xl font-bold"
             >
               {deleteMutation.isPending ? (
                 <Loader2 className="w-4 h-4 animate-spin mr-2" />
               ) : (
                 <Trash2 className="w-4 h-4 mr-2" />
               )}
-              Xóa
+              Xóa Ngay
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Detail Dialog */}
       <Dialog open={!!selectedReading} onOpenChange={() => setSelectedReading(null)}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-purple-700 flex items-center gap-2">
-              <Star className="w-6 h-6" />
-              Lá Số Tử Vi - {selectedReading?.fullName}
-            </DialogTitle>
-          </DialogHeader>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto glass-card bg-[#0f172a] border-white/10 rounded-[2.5rem] p-0 shadow-2xl overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-purple-500 to-transparent" />
           
-          {selectedReading && (
-            <div className="space-y-6">
-              {/* Info */}
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div className="p-3 rounded-xl bg-gray-50">
-                  <p className="text-xs text-gray-500">Ngày sinh</p>
-                  <p className="font-semibold text-gray-900">{formatDateVN(selectedReading.birthDate)}</p>
-                </div>
-                <div className="p-3 rounded-xl bg-gray-50">
-                  <p className="text-xs text-gray-500">Giờ sinh</p>
-                  <p className="font-semibold text-gray-900">{selectedReading.birthHour}</p>
-                </div>
-                <div className="p-3 rounded-xl bg-gray-50">
-                  <p className="text-xs text-gray-500">Giới tính</p>
-                  <p className="font-semibold text-gray-900">{selectedReading.gender === "male" ? "Nam" : "Nữ"}</p>
-                </div>
-                <div className="p-3 rounded-xl bg-gray-50">
-                  <p className="text-xs text-gray-500">Loại lịch</p>
-                  <p className="font-semibold text-gray-900">{selectedReading.calendarType === "lunar" ? "Âm lịch" : "Dương lịch"}</p>
-                </div>
-              </div>
-
-              {/* AI Analysis */}
-              {selectedReading.aiAnalysis && (
-                <div className="p-6 rounded-2xl bg-gradient-to-br from-purple-50 to-indigo-50 border border-purple-100">
-                  <h4 className="font-bold text-purple-700 mb-4 flex items-center gap-2">
-                    <Star className="w-5 h-5" />
-                    Phân Tích AI
-                  </h4>
-                  <div className="prose prose-gray max-w-none prose-sm">
-                    <Streamdown>{selectedReading.aiAnalysis}</Streamdown>
-                  </div>
-                </div>
-              )}
-
-              {/* Actions */}
-              <div className="flex flex-wrap gap-3 pt-4 border-t">
-                <ShareButtons
-                  title="Lá Số Tử Vi"
-                  description={`Lá số tử vi của ${selectedReading.fullName}`}
-                  type="tuvi"
-                  data={{
-                    name: selectedReading.fullName,
-                    birthDate: formatDateVN(selectedReading.birthDate),
-                  }}
-                />
-                <Button
-                  onClick={() => handleExportPDF(selectedReading)}
-                  className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white"
-                >
-                  <Download className="w-4 h-4 mr-2" />
-                  Tải PDF
-                </Button>
-              </div>
+          <div className="p-8 md:p-12 space-y-8">
+            <div className="flex items-center gap-6">
+               <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-purple-500/20 to-indigo-500/20 border border-purple-500/30 flex items-center justify-center shadow-lg">
+                  <Star className="w-10 h-10 text-purple-400" />
+               </div>
+               <div>
+                  <h2 className="text-3xl md:text-4xl font-black text-white tracking-tighter">Lá Số Tử Vi</h2>
+                  <p className="text-lg text-purple-400 font-bold uppercase tracking-widest">{selectedReading?.fullName}</p>
+               </div>
             </div>
-          )}
+            
+            {selectedReading && (
+              <div className="space-y-8">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                  {[
+                    { label: "Ngày sinh", value: formatDateVN(selectedReading.birthDate) },
+                    { label: "Giờ sinh", value: selectedReading.birthHour },
+                    { label: "Giới tính", value: selectedReading.gender === "male" ? "Nam" : "Nữ" },
+                    { label: "Loại lịch", value: selectedReading.calendarType === "lunar" ? "Âm lịch" : "Dương lịch" }
+                  ].map((item, i) => (
+                    <div key={i} className="p-4 rounded-2xl bg-white/5 border border-white/5 text-center group hover:border-white/10 transition-all">
+                      <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest mb-1">{item.label}</p>
+                      <p className="font-bold text-white">{item.value}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {selectedReading.aiAnalysis && (
+                  <div className="p-8 rounded-[2rem] bg-indigo-500/5 border border-indigo-500/20 relative overflow-hidden group">
+                    <h4 className="font-black text-indigo-400 mb-6 flex items-center gap-3 uppercase tracking-[0.2em] text-sm">
+                      <Sparkles className="w-5 h-5" />
+                      Phân Tích Chiêm Tinh AI
+                    </h4>
+                    <div className="prose prose-invert prose-indigo max-w-none text-gray-300 relative z-10 text-sm leading-relaxed">
+                      <Streamdown>{selectedReading.aiAnalysis}</Streamdown>
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex flex-wrap gap-4 pt-8 border-t border-white/5">
+                  <ShareButtons
+                    title="Lá Số Tử Vi"
+                    description={`Lá số tử vi của ${selectedReading.fullName}`}
+                    type="tuvi"
+                    data={{
+                      name: selectedReading.fullName,
+                      birthDate: formatDateVN(selectedReading.birthDate),
+                    }}
+                  />
+                  <Button
+                    onClick={() => handleExportPDF(selectedReading)}
+                    className="flex-1 h-14 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black rounded-2xl shadow-lg transition-all active:scale-95"
+                  >
+                    <Download className="w-5 h-5 mr-3" />
+                    Tải PDF Chuyên Sâu
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
         </DialogContent>
       </Dialog>
     </>
@@ -311,22 +303,24 @@ function NumerologyHistory() {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center py-12">
-        <Loader2 className="w-8 h-8 animate-spin text-indigo-600" />
+      <div className="flex items-center justify-center py-20">
+        <Loader2 className="w-12 h-12 animate-spin text-indigo-500" />
       </div>
     );
   }
 
   if (!readings || readings.length === 0) {
     return (
-      <div className="result-card text-center py-12 animate-fade-in-up">
-        <Hash className="w-12 h-12 mx-auto text-gray-300 mb-4" />
-        <h3 className="font-bold text-lg text-gray-900 mb-2">Chưa có lịch sử</h3>
-        <p className="text-gray-500 mb-4">
-          Bạn chưa xem thần số học nào. Hãy bắt đầu khám phá!
+      <div className="glass-card bg-white/5 border-white/10 text-center py-20 animate-fade-in-up rounded-3xl">
+        <Hash className="w-16 h-16 mx-auto text-gray-700 mb-6 opacity-20" />
+        <h3 className="font-black text-2xl text-white mb-3">Chưa có lịch sử</h3>
+        <p className="text-gray-500 mb-10 max-w-sm mx-auto">
+          Các con số mang trong mình sức mạnh định mệnh. Hãy khám phá con số của bạn ngay!
         </p>
         <Link href="/numerology">
-          <Button className="btn-primary">Khám Phá Thần Số Học</Button>
+          <Button className="h-14 px-8 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-bold rounded-2xl shadow-xl">
+             Giải Mã Thần Số Học
+          </Button>
         </Link>
       </div>
     );
@@ -334,158 +328,137 @@ function NumerologyHistory() {
 
   return (
     <>
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {readings.map((reading: any, index: number) => (
           <div 
             key={reading.id} 
-            className="p-6 bg-white rounded-2xl border border-gray-100 hover:shadow-lg hover:border-indigo-200 transition-all duration-300 animate-fade-in-up cursor-pointer group"
-            style={{ animationDelay: `${index * 100}ms` }}
+            className="p-6 glass-card bg-white/5 border-white/10 hover:bg-white/10 hover:border-indigo-500/30 transition-all duration-500 animate-fade-in-up cursor-pointer group rounded-2xl relative overflow-hidden"
+            style={{ animationDelay: `${index * 50}ms` }}
             onClick={() => setSelectedReading(reading)}
           >
-            <div className="flex items-start gap-4">
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-indigo-100 to-purple-100 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
-                <Hash className="w-6 h-6 text-indigo-600" />
+            <div className="flex items-start gap-4 relative z-10">
+              <div className="w-14 h-14 rounded-xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/30 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:rotate-3 transition-all duration-500 shadow-lg">
+                <Hash className="w-7 h-7 text-indigo-400" />
               </div>
               <div className="flex-1 min-w-0">
-                <h3 className="font-bold text-gray-900 group-hover:text-indigo-700 transition-colors">{reading.fullName}</h3>
-                <div className="flex items-center gap-3 text-sm text-gray-500 mt-1">
-                  <span className="flex items-center gap-1">
-                    <Calendar className="w-4 h-4" />
-                    {formatDateVN(reading.birthDate)}
-                  </span>
+                <h3 className="font-black text-white text-lg group-hover:text-indigo-300 transition-colors truncate">{reading.fullName}</h3>
+                <div className="flex items-center gap-1.5 text-xs text-indigo-400 mt-1 uppercase tracking-widest font-black">
+                   Số chủ đạo: {reading.lifePathNumber}
                 </div>
                 <div className="flex flex-wrap gap-2 mt-3">
-                  <span className="px-3 py-1 rounded-full bg-gradient-to-r from-purple-100 to-purple-50 text-purple-700 text-xs font-bold border border-purple-200">
-                    Số Chủ Đạo: {reading.lifePathNumber}
-                  </span>
-                  <span className="px-3 py-1 rounded-full bg-gradient-to-r from-amber-100 to-amber-50 text-amber-700 text-xs font-medium border border-amber-200">
-                    Linh Hồn: {reading.soulNumber}
-                  </span>
-                  <span className="px-3 py-1 rounded-full bg-gradient-to-r from-emerald-100 to-emerald-50 text-emerald-700 text-xs font-medium border border-emerald-200">
-                    Định Mệnh: {reading.destinyNumber}
-                  </span>
+                  <span className="px-2 py-0.5 rounded-md bg-white/5 text-[10px] font-bold text-gray-400 border border-white/5">Hồn: {reading.soulNumber}</span>
+                  <span className="px-2 py-0.5 rounded-md bg-white/5 text-[10px] font-bold text-gray-400 border border-white/5">Mệnh: {reading.destinyNumber}</span>
                 </div>
-                <p className="text-xs text-gray-400 mt-2 flex items-center gap-1">
-                  <HistoryIcon className="w-3 h-3" />
-                  {formatDateTimeVN(reading.createdAt)}
-                </p>
               </div>
-              <div className="flex items-center gap-2">
+              <div className="flex flex-col gap-2">
                 <Button 
                   variant="ghost" 
-                  size="sm" 
-                  className="opacity-0 group-hover:opacity-100 transition-opacity text-red-500 hover:text-red-700 hover:bg-red-50"
+                  size="icon" 
+                  className="h-8 w-8 text-gray-600 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all"
                   onClick={(e) => handleDelete(reading.id, e)}
                 >
                   <Trash2 className="w-4 h-4" />
                 </Button>
-                <Button variant="ghost" size="sm" className="opacity-0 group-hover:opacity-100 transition-opacity">
-                  <Eye className="w-4 h-4 mr-1" />
-                  Xem
-                </Button>
+                <div className="w-8 h-8 flex items-center justify-center text-indigo-400 group-hover:translate-x-1 transition-transform">
+                    <Eye className="w-5 h-5" />
+                </div>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* Delete Confirmation Dialog */}
       <AlertDialog open={deleteId !== null} onOpenChange={() => setDeleteId(null)}>
-        <AlertDialogContent>
+        <AlertDialogContent className="glass-card bg-[#0f172a] border-white/10 rounded-3xl">
           <AlertDialogHeader>
-            <AlertDialogTitle>Xác nhận xóa</AlertDialogTitle>
-            <AlertDialogDescription>
-              Bạn có chắc chắn muốn xóa kết quả tra cứu này? Hành động này không thể hoàn tác.
+            <AlertDialogTitle className="text-white text-xl font-bold">Xác nhận xóa</AlertDialogTitle>
+            <AlertDialogDescription className="text-gray-400">
+              Dữ liệu tra cứu này sẽ biến mất vĩnh viễn khỏi dòng thời gian của bạn. Bạn chắc chứ?
             </AlertDialogDescription>
           </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Hủy</AlertDialogCancel>
+          <AlertDialogFooter className="mt-6 gap-3">
+            <AlertDialogCancel className="bg-white/5 border-white/10 text-white rounded-xl hover:bg-white/10">Hủy</AlertDialogCancel>
             <AlertDialogAction 
               onClick={confirmDelete}
-              className="bg-red-600 hover:bg-red-700"
+              className="bg-red-600 hover:bg-red-500 text-white rounded-xl font-bold"
             >
               {deleteMutation.isPending ? (
                 <Loader2 className="w-4 h-4 animate-spin mr-2" />
               ) : (
                 <Trash2 className="w-4 h-4 mr-2" />
               )}
-              Xóa
+              Xóa Ngay
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>
 
-      {/* Detail Dialog */}
       <Dialog open={!!selectedReading} onOpenChange={() => setSelectedReading(null)}>
-        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto">
-          <DialogHeader>
-            <DialogTitle className="text-2xl font-bold text-indigo-700 flex items-center gap-2">
-              <Hash className="w-6 h-6" />
-              Thần Số Học - {selectedReading?.fullName}
-            </DialogTitle>
-          </DialogHeader>
+        <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto glass-card bg-[#0f172a] border-white/10 rounded-[2.5rem] p-0 shadow-2xl overflow-hidden">
+          <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-indigo-500 to-transparent" />
           
-          {selectedReading && (
-            <div className="space-y-6">
-              {/* Numbers Grid */}
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                <div className="p-4 rounded-xl bg-gradient-to-br from-purple-100 to-purple-50 border border-purple-200 text-center">
-                  <p className="text-3xl font-bold text-purple-700">{selectedReading.lifePathNumber}</p>
-                  <p className="text-xs text-purple-600 mt-1">Số Chủ Đạo</p>
-                </div>
-                <div className="p-4 rounded-xl bg-gradient-to-br from-amber-100 to-amber-50 border border-amber-200 text-center">
-                  <p className="text-3xl font-bold text-amber-700">{selectedReading.soulNumber}</p>
-                  <p className="text-xs text-amber-600 mt-1">Số Linh Hồn</p>
-                </div>
-                <div className="p-4 rounded-xl bg-gradient-to-br from-blue-100 to-blue-50 border border-blue-200 text-center">
-                  <p className="text-3xl font-bold text-blue-700">{selectedReading.personalityNumber}</p>
-                  <p className="text-xs text-blue-600 mt-1">Số Nhân Cách</p>
-                </div>
-                <div className="p-4 rounded-xl bg-gradient-to-br from-emerald-100 to-emerald-50 border border-emerald-200 text-center">
-                  <p className="text-3xl font-bold text-emerald-700">{selectedReading.destinyNumber}</p>
-                  <p className="text-xs text-emerald-600 mt-1">Số Định Mệnh</p>
-                </div>
-                <div className="p-4 rounded-xl bg-gradient-to-br from-rose-100 to-rose-50 border border-rose-200 text-center">
-                  <p className="text-3xl font-bold text-rose-700">{selectedReading.birthDayNumber}</p>
-                  <p className="text-xs text-rose-600 mt-1">Số Ngày Sinh</p>
-                </div>
-              </div>
-
-              {/* AI Analysis */}
-              {selectedReading.aiAnalysis && (
-                <div className="p-6 rounded-2xl bg-gradient-to-br from-indigo-50 to-purple-50 border border-indigo-100">
-                  <h4 className="font-bold text-indigo-700 mb-4 flex items-center gap-2">
-                    <Hash className="w-5 h-5" />
-                    Phân Tích AI
-                  </h4>
-                  <div className="prose prose-gray max-w-none prose-sm">
-                    <Streamdown>{selectedReading.aiAnalysis}</Streamdown>
-                  </div>
-                </div>
-              )}
-
-              {/* Actions */}
-              <div className="flex flex-wrap gap-3 pt-4 border-t">
-                <ShareButtons
-                  title="Thần Số Học"
-                  description={`Kết quả thần số học của ${selectedReading.fullName}`}
-                  type="numerology"
-                  data={{
-                    name: selectedReading.fullName,
-                    birthDate: formatDateVN(selectedReading.birthDate),
-                    mainNumber: selectedReading.lifePathNumber,
-                  }}
-                />
-                <Button
-                  onClick={() => handleExportPDF(selectedReading)}
-                  className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white"
-                >
-                  <Download className="w-4 h-4 mr-2" />
-                  Tải PDF
-                </Button>
-              </div>
+          <div className="p-8 md:p-12 space-y-8">
+            <div className="flex items-center gap-6">
+               <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500/20 to-purple-500/20 border border-indigo-500/30 flex items-center justify-center shadow-lg">
+                  <Hash className="w-10 h-10 text-indigo-400" />
+               </div>
+               <div>
+                  <h2 className="text-3xl md:text-4xl font-black text-white tracking-tighter">Thần Số Học</h2>
+                  <p className="text-lg text-indigo-400 font-bold uppercase tracking-widest">{selectedReading?.fullName}</p>
+               </div>
             </div>
-          )}
+            
+            {selectedReading && (
+              <div className="space-y-8">
+                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                  {[
+                    { label: "Số Chủ Đạo", value: selectedReading.lifePathNumber, color: "text-indigo-400" },
+                    { label: "Linh Hồn", value: selectedReading.soulNumber, color: "text-rose-400" },
+                    { label: "Nhân Cách", value: selectedReading.personalityNumber, color: "text-amber-400" },
+                    { label: "Định Mệnh", value: selectedReading.destinyNumber, color: "text-emerald-400" },
+                    { label: "Ngày Sinh", value: selectedReading.birthDayNumber, color: "text-blue-400" }
+                  ].map((item, i) => (
+                    <div key={i} className="p-4 rounded-2xl bg-white/5 border border-white/5 text-center group hover:border-white/10 transition-all">
+                      <p className="text-[10px] text-gray-500 font-black uppercase tracking-widest mb-1">{item.label}</p>
+                      <p className={`text-2xl font-black ${item.color}`}>{item.value}</p>
+                    </div>
+                  ))}
+                </div>
+
+                {selectedReading.aiAnalysis && (
+                  <div className="p-8 rounded-[2rem] bg-indigo-500/5 border border-indigo-500/20 relative overflow-hidden group">
+                    <h4 className="font-black text-indigo-400 mb-6 flex items-center gap-3 uppercase tracking-[0.2em] text-sm">
+                      <Sparkles className="w-5 h-5" />
+                      Cẩm Nang Vận Mệnh AI
+                    </h4>
+                    <div className="prose prose-invert prose-indigo max-w-none text-gray-300 relative z-10 text-sm leading-relaxed">
+                      <Streamdown>{selectedReading.aiAnalysis}</Streamdown>
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex flex-wrap gap-4 pt-8 border-t border-white/5">
+                  <ShareButtons
+                    title="Thần Số Học"
+                    description={`Kết quả thần số học của ${selectedReading.fullName}`}
+                    type="numerology"
+                    data={{
+                      name: selectedReading.fullName,
+                      birthDate: formatDateVN(selectedReading.birthDate),
+                      mainNumber: selectedReading.lifePathNumber,
+                    }}
+                  />
+                  <Button
+                    onClick={() => handleExportPDF(selectedReading)}
+                    className="flex-1 h-14 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-black rounded-2xl shadow-lg transition-all active:scale-95"
+                  >
+                    <Download className="w-5 h-5 mr-3" />
+                    Tải PDF Chuyên Sâu
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
         </DialogContent>
       </Dialog>
     </>
@@ -499,7 +472,7 @@ export default function History() {
     return (
       <Layout>
         <div className="min-h-[60vh] flex items-center justify-center">
-          <Loader2 className="w-8 h-8 animate-spin text-purple-600" />
+          <Loader2 className="w-12 h-12 animate-spin text-purple-500" />
         </div>
       </Layout>
     );
@@ -508,20 +481,21 @@ export default function History() {
   if (!user) {
     return (
       <Layout>
-        <section className="py-20">
-          <div className="container">
+        <section className="py-24 relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(168,85,247,0.1),transparent_70%)]" />
+          <div className="container relative z-10">
             <div className="max-w-md mx-auto text-center animate-fade-in-up">
-              <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-gradient-to-br from-purple-100 to-indigo-100 flex items-center justify-center">
-                <HistoryIcon className="w-10 h-10 text-purple-600" />
+              <div className="w-24 h-24 mx-auto mb-8 rounded-3xl bg-gradient-to-br from-purple-500/20 to-indigo-500/20 border border-purple-500/30 flex items-center justify-center shadow-2xl rotate-3">
+                <HistoryIcon className="w-12 h-12 text-purple-400" />
               </div>
-              <h1 className="text-2xl font-bold text-gray-900 mb-4">
+              <h1 className="text-3xl font-black text-white mb-4 tracking-tight">
                 Đăng Nhập Để Xem Lịch Sử
               </h1>
-              <p className="text-gray-500 mb-8">
-                Bạn cần đăng nhập để xem lịch sử tra cứu Tử Vi và Thần Số Học của mình.
+              <p className="text-gray-500 mb-10 leading-relaxed font-medium">
+                Bạn cần đăng nhập để xem lịch sử tra cứu Tử Vi và Thần Số Học của mình. Mọi thông tin sẽ được lưu giữ bảo mật.
               </p>
               <a href={getLoginUrl()}>
-                <Button className="btn-primary">
+                <Button className="h-16 px-10 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-black text-lg rounded-2xl shadow-[0_0_25px_rgba(168,85,247,0.3)] transition-all active:scale-95">
                   Đăng Nhập Ngay
                 </Button>
               </a>
@@ -535,45 +509,45 @@ export default function History() {
   return (
     <Layout>
       {/* Hero Section */}
-      <section className="bg-gradient-to-b from-gray-50 to-white py-12">
-        <div className="container">
-          <div className="max-w-2xl mx-auto text-center">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gray-100 text-gray-700 text-sm font-medium mb-6 animate-fade-in-down">
+      <section className="py-20 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_-20%,rgba(99,102,241,0.1),transparent_70%)]" />
+        <div className="container relative z-10">
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-white/5 border border-white/10 text-gray-400 text-sm font-bold mb-8 animate-fade-in-down backdrop-blur-md uppercase tracking-widest">
               <HistoryIcon className="w-4 h-4" />
-              Lịch sử tra cứu
+              Dòng thời gian
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4 animate-fade-in-up">
-              Lịch Sử Tra Cứu
+            <h1 className="text-5xl md:text-6xl font-black text-white mb-8 tracking-tighter text-glow">
+              Lịch Sử <span className="bg-gradient-to-r from-purple-400 via-indigo-400 to-blue-400 bg-clip-text text-transparent">Tra Cứu</span>
             </h1>
-            <p className="text-gray-600 animate-fade-in-up animate-delay-100">
-              Xem lại các lá số tử vi và kết quả thần số học bạn đã tra cứu.
-              Click vào mỗi kết quả để xem chi tiết, hoặc xóa những kết quả không cần thiết.
+            <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed animate-fade-in-up animate-delay-100 font-medium">
+              Nơi lưu trữ những khoảnh khắc khai sáng. Xem lại các lá số tử vi và kết quả thần số học bạn đã khám phá.
             </p>
           </div>
         </div>
       </section>
 
       {/* Main Content */}
-      <section className="py-12">
+      <section className="pb-24">
         <div className="container">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-5xl mx-auto">
             <Tabs defaultValue="tuvi" className="w-full">
-              <TabsList className="tab-list mb-8 animate-fade-in-up">
-                <TabsTrigger value="tuvi" className="tab-trigger">
+              <TabsList className="grid w-full grid-cols-2 mb-12 bg-white/5 backdrop-blur-md border border-white/10 p-1.5 rounded-2xl h-auto animate-fade-in-up">
+                <TabsTrigger value="tuvi" className="py-4 font-black rounded-xl data-[state=active]:bg-purple-600 data-[state=active]:text-white uppercase tracking-widest text-xs gap-3">
                   <Star className="w-4 h-4" />
-                  Tử Vi
+                  LÁ SỐ TỬ VI
                 </TabsTrigger>
-                <TabsTrigger value="numerology" className="tab-trigger">
+                <TabsTrigger value="numerology" className="py-4 font-black rounded-xl data-[state=active]:bg-indigo-600 data-[state=active]:text-white uppercase tracking-widest text-xs gap-3">
                   <Hash className="w-4 h-4" />
-                  Thần Số Học
+                  THẦN SỐ HỌC
                 </TabsTrigger>
               </TabsList>
               
-              <TabsContent value="tuvi" className="mt-0 animate-fade-in">
+              <TabsContent value="tuvi" className="mt-0 animate-fade-in outline-none focus:outline-none focus:ring-0">
                 <TuviHistory />
               </TabsContent>
               
-              <TabsContent value="numerology" className="mt-0 animate-fade-in">
+              <TabsContent value="numerology" className="mt-0 animate-fade-in outline-none focus:outline-none focus:ring-0">
                 <NumerologyHistory />
               </TabsContent>
             </Tabs>

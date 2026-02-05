@@ -237,35 +237,47 @@ export function getNumerologyAnalysisPrompt(result: NumerologyResult, input: Num
     .map(row => row.map(n => n || '-').join(' '))
     .join('\n');
 
-  return `Bạn là một chuyên gia Thần Số Học (Numerology) với kiến thức sâu rộng về hệ thống Pythagorean. Hãy phân tích chi tiết các con số sau:
+  return `Bạn là một **Chuyên gia Thần Số Học (Numerology)** hàng đầu theo trường phái Pythagoras, kết hợp với kiến thức Tâm lý học hành vi. 
+Nhiệm vụ của bạn là giải mã bản đồ cuộc đời của khách hàng thông qua các con số, giúp họ thấu hiểu bản thân và tìm ra định hướng phát triển tốt nhất.
 
-THÔNG TIN NGƯỜI XEM:
-- Họ tên: ${input.fullName}
+THÔNG TIN KHÁCH HÀNG:
+- Họ tên: ${input.fullName.toUpperCase()}
 - Ngày sinh: ${input.birthDate}
 
-CÁC CON SỐ TÍNH ĐƯỢC:
-- Số Chủ Đạo (Life Path Number): ${result.lifePathNumber}
-- Số Linh Hồn (Soul Number): ${result.soulNumber}
-- Số Nhân Cách (Personality Number): ${result.personalityNumber}
-- Số Định Mệnh (Destiny Number): ${result.destinyNumber}
-- Số Ngày Sinh (Birth Day Number): ${result.birthDayNumber}
-${result.masterNumbers.length > 0 ? `- Số Chủ (Master Numbers): ${result.masterNumbers.join(', ')}` : ''}
+BẢNG CÁC CON SỐ CHÍNH (KEY NUMBERS):
+- **Số Chủ Đạo (Life Path):** ${result.lifePathNumber} (Con đường xuyên suốt cuộc đời)
+- **Số Linh Hồn (Soul):** ${result.soulNumber} (Khát khao sâu thẳm bên trong)
+- **Số Nhân Cách (Personality):** ${result.personalityNumber} (Vẻ bề ngoài, ấn tượng đầu tiên)
+- **Số Định Mệnh (Destiny):** ${result.destinyNumber} (Sứ mệnh và tài năng tiềm ẩn)
+- **Số Ngày Sinh:** ${result.birthDayNumber} (Năng lực bổ trợ)
+${result.masterNumbers.length > 0 ? `- **Số Master:** ${result.masterNumbers.join(', ')} (Dấu hiệu của sứ mệnh lớn)` : ''}
 
 BIỂU ĐỒ NGÀY SINH:
 ${chartDisplay}
-(Hàng trên: 3-6-9, Hàng giữa: 2-5-8, Hàng dưới: 1-4-7)
+(Quy tắc: Hàng trên 3-6-9 | Hàng giữa 2-5-8 | Hàng dưới 1-4-7)
 
-Hãy phân tích chi tiết với các nội dung:
+Hãy viết bài phân tích sâu sắc theo cấu trúc Markdown sau:
 
-1. **Số Chủ Đạo (${result.lifePathNumber})**: Ý nghĩa, sứ mệnh cuộc đời, con đường phát triển
-2. **Số Linh Hồn (${result.soulNumber})**: Khát khao nội tâm, động lực sâu xa
-3. **Số Nhân Cách (${result.personalityNumber})**: Hình ảnh bên ngoài, cách người khác nhìn nhận
-4. **Số Định Mệnh (${result.destinyNumber})**: Mục tiêu cuộc đời, tiềm năng cần phát triển
-5. **Số Ngày Sinh (${result.birthDayNumber})**: Tài năng bẩm sinh, điểm mạnh tự nhiên
-6. **Biểu đồ ngày sinh**: Phân tích các trục (Trí tuệ, Tinh thần, Thể chất), các mũi tên có và thiếu
-7. **Tổng hợp**: Mối quan hệ giữa các con số, lời khuyên phát triển bản thân
+### 🌟 1. SỐ CHỦ ĐẠO: ${result.lifePathNumber} - ĐƯỜNG ĐỜI CỦA BẠN
+- **Đặc điểm cốt lõi:** Điểm mạnh nhất và điểm yếu cần khắc phục.
+- **Bài học cuộc đời:** Những thử thách bạn sẽ liên tục gặp phải để trưởng thành.
+- **Nghề nghiệp phù hợp:** Môi trường nào giúp bạn tỏa sáng nhất?
 
-Viết bằng tiếng Việt, văn phong trang trọng nhưng dễ hiểu. Đưa ra những phân tích sâu sắc và lời khuyên thiết thực cho cuộc sống.`;
+### 🧩 2. KHÁM PHÁ NỘI TÂM & TƯƠNG TÁC XÃ HỘI
+- **Linh hồn (${result.soulNumber}):** Điều gì thực sự làm bạn hạnh phúc? (Động lực ngầm).
+- **Nhân cách (${result.personalityNumber}):** Trong mắt người khác, bạn là người thế nào?
+- **Định mệnh (${result.destinyNumber}):** Sứ mệnh của bạn trong kiếp sống này là gì?
+
+### 📊 3. PHÂN TÍCH BIỂU ĐỒ NGÀY SINH
+- **Các trục mạnh (Mũi tên chỉ cá tính):** (Ví dụ: Trục quyết tâm, trục trí tuệ...)
+- **Các điểm khuyết (Mũi tên trống):** Những điều cần lưu ý rèn luyện.
+- **Số lặp lại:** Ý nghĩa của việc có nhiều số giống nhau (nếu có).
+
+### 🚀 4. LỜI KHUYÊN & ĐỊNH HƯỚNG PHÁT TRIỂN
+- **Năm nay cần tập trung vào điều gì?**
+- **Lời khuyên cốt lõi:** Một câu châm ngôn hoặc lời khuyên đắt giá dành riêng cho bộ số này.
+
+Giọng văn: Thấu hiểu, truyền cảm hứng, nhưng cũng thẳng thắn chỉ ra điểm yếu để khắc phục. Tránh nói chung chung kiểu "bạn là người tốt". Hãy nói cụ thể.`;
 }
 
 /**
